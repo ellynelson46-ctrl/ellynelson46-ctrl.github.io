@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reel Vault</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -591,7 +589,7 @@
     <div class="search-pill" id="searchPill" onclick="toggleSearch(event)">
       <span class="search-pill-icon">⌕</span>
       <span class="search-pill-label">Search</span>
-      <input class="search-pill-input" id="searchInput" type="text" placeholder="Titles, directors…" oninput="handleSearch(this.value)" onclick="event.stopPropagation()" />
+      <input class="search-pill-input" id="searchInput" type="text" placeholder="Titles, directors…" oninput="handleSearch(this.value)" onclick="event.stopPropagation()">
     </div>
     <div class="nav-bell">🔔</div>
     <div class="nav-avatar">R</div>
@@ -605,7 +603,7 @@
   <!-- HERO -->
   <section class="hero" id="heroSection">
     <div class="hero-bg">
-      <img class="hero-bg-img" id="heroBgImg" src="" alt="" />
+      <img class="hero-bg-img" id="heroBgImg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Nosferatu_Eine_Symphonie_des_Grauens_poster.jpg/800px-Nosferatu_Eine_Symphonie_des_Grauens_poster.jpg" alt="">
       <div class="hero-fade"></div>
     </div>
     <div class="hero-content">
@@ -648,29 +646,289 @@
 
   <!-- ROWS -->
   <div class="rows-area" id="mainContent">
-    <div class="row" id="row-added" style="display:none">
-      <div class="row-header"><span class="row-title">✨ Added by You</span><span class="row-count" id="count-added"></span></div>
-      <div class="row-scroll" id="scroll-added"></div>
+    <div class="row" id="row-added" style="">
+      <div class="row-header"><span class="row-title">✨ Added by You</span><span class="row-count" id="count-added">2 films</span></div>
+      <div class="row-scroll" id="scroll-added"><div class="card">
+      <div class="card-img">
+        <img src="https://image.tmdb.org/t/p/w500/rhGx6E3qRNMgj3i5su2oukNHwIQ.jpg" alt="Backrooms" loading="lazy" onerror="this.style.display='none'">
+        <div class="card-img-fallback" style="display:none">🎬</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Backrooms</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://image.tmdb.org/t/p/w500/7YGA3fzTb1VyIasPQyCvtvnaPo3.jpg" alt="20 years of Simpsons" loading="lazy" onerror="this.style.display='none'">
+        <div class="card-img-fallback" style="display:none">🎬</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">20 years of Simpsons</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div></div>
+    </div>
+    <div class="row" id="row-modern">
+      <div class="row-header"><span class="row-title">🎬 Modern Hits</span><span class="row-count" id="count-modern">1 film</span></div>
+      <div class="row-scroll" id="scroll-modern"><div class="card">
+      <div class="card-img">
+        <img src="https://image.tmdb.org/t/p/w500/fKjzs1JXPNQ2dWjKQRSGkn5QmVX.jpg" alt="Backrooms" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🟡</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Backrooms</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div></div>
     </div>
     <div class="row" id="row-popular">
-      <div class="row-header"><span class="row-title">Popular on Reel Vault</span><span class="row-count" id="count-popular"></span></div>
-      <div class="row-scroll" id="scroll-popular"></div>
+      <div class="row-header"><span class="row-title">Popular on Reel Vault</span><span class="row-count" id="count-popular">8 films</span></div>
+      <div class="row-scroll" id="scroll-popular"><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Nosferatu_Eine_Symphonie_des_Grauens_poster.jpg/800px-Nosferatu_Eine_Symphonie_des_Grauens_poster.jpg" alt="Nosferatu" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🧛</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Nosferatu</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Metropolis_poster_1927.jpg/800px-Metropolis_poster_1927.jpg" alt="Metropolis" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🏙️</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Metropolis</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/General_poster.jpg/800px-General_poster.jpg" alt="The General" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🚂</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">The General</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/The_Kid_1921_film_poster.jpg/800px-The_Kid_1921_film_poster.jpg" alt="The Kid" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🎩</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">The Kid</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/The_Gold_Rush_poster.jpg/800px-The_Gold_Rush_poster.jpg" alt="The Gold Rush" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">⛏️</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">The Gold Rush</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Sunrise_1927.jpg/800px-Sunrise_1927.jpg" alt="Sunrise" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🌅</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Sunrise</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/City_Lights_poster.jpg/800px-City_Lights_poster.jpg" alt="City Lights" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🌹</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">City Lights</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Wings_1927_poster.jpg/800px-Wings_1927_poster.jpg" alt="Wings" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">✈️</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Wings</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div></div>
     </div>
     <div class="row" id="row-chaplin">
-      <div class="row-header"><span class="row-title">Charlie Chaplin collection</span><span class="row-count" id="count-chaplin"></span></div>
-      <div class="row-scroll" id="scroll-chaplin"></div>
+      <div class="row-header"><span class="row-title">Charlie Chaplin collection</span><span class="row-count" id="count-chaplin">4 films</span></div>
+      <div class="row-scroll" id="scroll-chaplin"><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/The_Kid_1921_film_poster.jpg/800px-The_Kid_1921_film_poster.jpg" alt="The Kid" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🎩</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">The Kid</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/The_Gold_Rush_poster.jpg/800px-The_Gold_Rush_poster.jpg" alt="The Gold Rush" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">⛏️</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">The Gold Rush</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/City_Lights_poster.jpg/800px-City_Lights_poster.jpg" alt="City Lights" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🌹</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">City Lights</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/ModernTimes_1936_poster.jpg/800px-ModernTimes_1936_poster.jpg" alt="Modern Times" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">⚙️</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Modern Times</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div></div>
     </div>
     <div class="row" id="row-horror">
-      <div class="row-header"><span class="row-title">Horror & the macabre</span><span class="row-count" id="count-horror"></span></div>
-      <div class="row-scroll" id="scroll-horror"></div>
+      <div class="row-header"><span class="row-title">Horror &amp; the macabre</span><span class="row-count" id="count-horror">5 films</span></div>
+      <div class="row-scroll" id="scroll-horror"><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Nosferatu_Eine_Symphonie_des_Grauens_poster.jpg/800px-Nosferatu_Eine_Symphonie_des_Grauens_poster.jpg" alt="Nosferatu" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🧛</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Nosferatu</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/The_Cabinet_of_Dr._Caligari_poster.jpg/800px-The_Cabinet_of_Dr._Caligari_poster.jpg" alt="Cabinet of Dr. Caligari" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🌀</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Cabinet of Dr. Caligari</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Phantom_of_the_opera_1925.jpg/800px-Phantom_of_the_opera_1925.jpg" alt="Phantom of the Opera" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🎭</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Phantom of the Opera</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://image.tmdb.org/t/p/w500/fKjzs1JXPNQ2dWjKQRSGkn5QmVX.jpg" alt="Backrooms" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🟡</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Backrooms</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://image.tmdb.org/t/p/w500/rhGx6E3qRNMgj3i5su2oukNHwIQ.jpg" alt="Backrooms" loading="lazy" onerror="this.style.display='none'">
+        <div class="card-img-fallback" style="display:none">🎬</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Backrooms</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div></div>
     </div>
     <div class="row" id="row-masterworks">
-      <div class="row-header"><span class="row-title">Masterworks</span><span class="row-count" id="count-masterworks"></span></div>
-      <div class="row-scroll" id="scroll-masterworks"></div>
+      <div class="row-header"><span class="row-title">Masterworks</span><span class="row-count" id="count-masterworks">6 films</span></div>
+      <div class="row-scroll" id="scroll-masterworks"><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Nosferatu_Eine_Symphonie_des_Grauens_poster.jpg/800px-Nosferatu_Eine_Symphonie_des_Grauens_poster.jpg" alt="Nosferatu" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🧛</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Nosferatu</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Metropolis_poster_1927.jpg/800px-Metropolis_poster_1927.jpg" alt="Metropolis" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🏙️</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Metropolis</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Battleship_Potemkin_film_poster.jpg/800px-Battleship_Potemkin_film_poster.jpg" alt="Battleship Potemkin" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">⚓</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Battleship Potemkin</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Sunrise_1927.jpg/800px-Sunrise_1927.jpg" alt="Sunrise" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🌅</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Sunrise</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Phantom_of_the_opera_1925.jpg/800px-Phantom_of_the_opera_1925.jpg" alt="Phantom of the Opera" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🎭</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Phantom of the Opera</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Wings_1927_poster.jpg/800px-Wings_1927_poster.jpg" alt="Wings" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">✈️</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Wings</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div></div>
     </div>
     <div class="row" id="row-comedy">
-      <div class="row-header"><span class="row-title">Comedy & slapstick</span><span class="row-count" id="count-comedy"></span></div>
-      <div class="row-scroll" id="scroll-comedy"></div>
+      <div class="row-header"><span class="row-title">Comedy &amp; slapstick</span><span class="row-count" id="count-comedy">6 films</span></div>
+      <div class="row-scroll" id="scroll-comedy"><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/General_poster.jpg/800px-General_poster.jpg" alt="The General" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🚂</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">The General</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/The_Kid_1921_film_poster.jpg/800px-The_Kid_1921_film_poster.jpg" alt="The Kid" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🎩</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">The Kid</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Safety_Last.jpg/800px-Safety_Last.jpg" alt="Safety Last!" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🕐</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Safety Last!</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/The_Gold_Rush_poster.jpg/800px-The_Gold_Rush_poster.jpg" alt="The Gold Rush" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">⛏️</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">The Gold Rush</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/ModernTimes_1936_poster.jpg/800px-ModernTimes_1936_poster.jpg" alt="Modern Times" loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">⚙️</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Modern Times</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div><div class="card">
+      <div class="card-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Sherlock_Jr._1924_film_poster.jpg/800px-Sherlock_Jr._1924_film_poster.jpg" alt="Sherlock Jr." loading="lazy" onerror="this.style.display='none'" style="display: none;">
+        <div class="card-img-fallback" style="display: flex;">🔍</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">Sherlock Jr.</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div></div></div>
     </div>
   </div>
 
@@ -688,33 +946,33 @@
 <!-- RIGHT-SIDE DETAIL DRAWER -->
 <div class="drawer" id="drawer">
   <div class="drawer-media" id="drawerMedia">
-    <img class="drawer-media-poster" id="drawerPoster" src="" alt="" />
+    <img class="drawer-media-poster" id="drawerPoster" src="https://image.tmdb.org/t/p/w500/7YGA3fzTb1VyIasPQyCvtvnaPo3.jpg" alt="">
     <div class="drawer-media-gradient"></div>
-    <iframe id="drawerIframe" src="" allowfullscreen style="display:none;position:absolute;inset:0;width:100%;height:100%;border:none;z-index:2;"></iframe>
+    <iframe id="drawerIframe" src="" allowfullscreen="" style="display:none;position:absolute;inset:0;width:100%;height:100%;border:none;z-index:2;"></iframe>
     <button class="drawer-close" onclick="closeModal()">✕</button>
   </div>
   <div class="drawer-body">
-    <h2 class="drawer-title" id="drawerTitle"></h2>
+    <h2 class="drawer-title" id="drawerTitle">20 years of Simpsons</h2>
     <div class="drawer-meta-row">
-      <span class="m-val" id="drawerYear"></span>
+      <span class="m-val" id="drawerYear">2009</span>
       <span class="m-dot">·</span>
-      <span class="m-val" id="drawerGenre"></span>
+      <span class="m-val" id="drawerGenre">Documentary</span>
       <span class="m-dot">·</span>
-      <span class="m-val" id="drawerDuration"></span>
+      <span class="m-val" id="drawerDuration">16 min</span>
       <span class="m-pill">PD</span>
     </div>
     <div class="drawer-badge-row">
       <span class="drawer-pd-badge">Public Domain</span>
       <span class="drawer-badge-note">Free · No sign-up required</span>
     </div>
-    <p class="drawer-desc" id="drawerDesc"></p>
+    <p class="drawer-desc" id="drawerDesc">A short French documentary to celebrate the twentieth anniversary of the show.</p>
     <div class="drawer-credits">
-      <p id="drawerCastLine"></p>
-      <p>Director: <span id="drawerDirector"></span></p>
+      <p id="drawerCastLine">Cast: <span>Matt Groening, Philippe Peythieu, Véronique Augereau, Joëlle Guigui</span></p>
+      <p>Director: <span id="drawerDirector">Franck Pedretti</span></p>
     </div>
     <div class="drawer-top10">
       <div class="drawer-top10-badge">TOP<br>10</div>
-      <span class="drawer-top10-text" id="drawerRank"></span>
+      <span class="drawer-top10-text" id="drawerRank">#2 Added by You</span>
       <span class="drawer-recommend">👍 We think you'll love this!</span>
     </div>
     <div class="drawer-thumbs">
@@ -729,7 +987,7 @@
       ▦ &nbsp;Episodes
     </button>
     <button class="drawer-menu-btn"><span class="drawer-menu-icon">▦</span> More Like This</button>
-    <a class="drawer-menu-btn" id="drawerArchiveLink" href="#" target="_blank" rel="noopener">
+    <a class="drawer-menu-btn" id="drawerArchiveLink" href="#" target="_blank" rel="noopener" style="display: none;">
       <span class="drawer-menu-icon">↗</span> Open on Archive.org
     </a>
     <button class="drawer-menu-btn"><span class="drawer-menu-icon">+</span> Add to My List</button>
@@ -756,11 +1014,16 @@
     { id:11, title:'Modern Times',                year:1936, director:'Charlie Chaplin',    genre:'Comedy',    duration:'87 min',  tags:['Comedy','Drama'],    emoji:'⚙️', cast:['Charlie Chaplin','Paulette Goddard','Henry Bergman'],             isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/ModernTimes_1936_poster.jpg/800px-ModernTimes_1936_poster.jpg', embedUrl:'https://archive.org/embed/ModernTimes_201501', archiveUrl:'https://archive.org/details/ModernTimes_201501', rank:"Chaplin's Last Tramp Film", desc:"Chaplin's satirical attack on industrialization. The Tramp fights the modern world in his final appearance as the Little Tramp character." },
     { id:12, title:'The Great Train Robbery',     year:1903, director:'Edwin S. Porter',    genre:'Adventure', duration:'10 min',  tags:['Adventure','Crime'], emoji:'🤠', cast:['A.C. Abadie','Gilbert M. Anderson','George Barnes'],              isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/The_Great_Train_Robbery_%281903%29.jpg/800px-The_Great_Train_Robbery_%281903%29.jpg', embedUrl:'https://archive.org/embed/TheGreatTrainRobbery', archiveUrl:'https://archive.org/details/TheGreatTrainRobbery', rank:'Birth of the Western', desc:"The film that invented the Western genre and cinematic storytelling. The final close-up firing at the camera stunned 1903 audiences." },
     { id:13, title:'Wings',                       year:1927, director:'William Wellman',    genre:'Adventure', duration:'144 min', tags:['Adventure','Drama'], emoji:'✈️', cast:['Clara Bow','Charles Rogers','Richard Arlen'],                     isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Wings_1927_poster.jpg/800px-Wings_1927_poster.jpg', embedUrl:'https://archive.org/embed/Wings1927Film', archiveUrl:'https://archive.org/details/Wings1927Film', rank:'First Best Picture Winner', desc:"Winner of the first Academy Award for Best Picture. Two WWI pilots love the same girl. Extraordinary aerial photography." },
+    { id:15, title:'Backrooms', year:2026, director:'Kane Parsons', genre:'Horror', duration:'110 min', tags:['Horror','Sci-Fi'], emoji:'🟡', cast:['Chiwetel Ejiofor','Renate Reinsve','Mark Duplass','Finn Bennett','Lukita Maxwell','Avan Jogia'], isSeries:false, poster:'https://image.tmdb.org/t/p/w500/fKjzs1JXPNQ2dWjKQRSGkn5QmVX.jpg', backdrop:'https://image.tmdb.org/t/p/w1280/fKjzs1JXPNQ2dWjKQRSGkn5QmVX.jpg', embedUrl:'https://dn721907.ca.archive.org/0/items/bibbleblop44444/bibbleblop.mp4', archiveUrl:'https://archive.org/details/bibbleblop44444', rank:"A24's Biggest Opening Ever", desc:"A strange doorway appears in the basement of a furniture showroom. Two people who find themselves on the other side discover the Backrooms — an endless, fluorescent-lit labyrinth stretching beyond reality. Directed by 20-year-old Kane Parsons (Kane Pixels), the YouTube creator who made the viral Backrooms series, this A24 sci-fi horror film became the studio's highest-grossing release of all time." },
     { id:14, title:'Sherlock Jr.',                year:1924, director:'Buster Keaton',      genre:'Comedy',    duration:'45 min',  tags:['Comedy'],            emoji:'🔍', cast:['Buster Keaton','Kathryn McGuire','Joe Keaton'],                   isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Sherlock_Jr._1924_film_poster.jpg/800px-Sherlock_Jr._1924_film_poster.jpg', embedUrl:'https://archive.org/embed/SherlockJr1924', archiveUrl:'https://archive.org/details/SherlockJr1924', rank:'Most Inventive Comedy', desc:"Keaton plays a projectionist who dreams himself into the film on screen. A surreal comedy that anticipates postmodern cinema by 60 years." },
+,
+    { id:20000, tmdbId:1083381, title:'Backrooms', year:2026, director:'Kane Parsons', genre:'Horror', duration:'111 min', tags:['Horror','Mystery','Science Fiction'], emoji:'🎬', cast:['Chiwetel Ejiofor','Renate Reinsve','Mark Duplass','Finn Bennett'], isSeries:false, poster:'https://image.tmdb.org/t/p/w500/rhGx6E3qRNMgj3i5su2oukNHwIQ.jpg', backdrop:'https://image.tmdb.org/t/p/w1280/mCpwRayjXMFzKHbjbzc5JRKfq1O.jpg', embedUrl:'', archiveUrl:'backrooms movie by kane parsons link is here https://dn721907.ca.archive.org/0/items/bibbleblop44444/bibbleblop.mp4', rank:'#1 Added by You', desc:'A strange doorway appears in the basement of a furniture showroom.', isSeries:false, fromTmdb:true },
+    { id:20001, tmdbId:1357822, title:'20 years of Simpsons', year:2009, director:'Franck Pedretti', genre:'Documentary', duration:'16 min', tags:['Documentary','TV Movie'], emoji:'🎬', cast:['Matt Groening','Philippe Peythieu','Véronique Augereau','Joëlle Guigui'], isSeries:false, poster:'https://image.tmdb.org/t/p/w500/7YGA3fzTb1VyIasPQyCvtvnaPo3.jpg', backdrop:'https://image.tmdb.org/t/p/w500/7YGA3fzTb1VyIasPQyCvtvnaPo3.jpg', embedUrl:'', archiveUrl:'', rank:'#2 Added by You', desc:'A short French documentary to celebrate the twentieth anniversary of the show.', isSeries:false, fromTmdb:true }
   ];
 
   const ROWS = [
     { id:'popular',    filter: m => [0,1,2,6,8,10,3,13].includes(m.id) },
+    { id:'modern',     filter: m => [15,20000,20001].includes(m.id) },
     { id:'chaplin',    filter: m => m.director === 'Charlie Chaplin' },
     { id:'horror',     filter: m => m.tags.includes('Horror') },
     { id:'masterworks',filter: m => [7,8,9,1,13,0].includes(m.id) },
@@ -955,7 +1218,7 @@
   const TMDB_BG   = 'https://image.tmdb.org/t/p/w1280';
 
   function getApiKey() { return localStorage.getItem(LS_APIKEY) || ''; }
-  function getSavedFilms() { try { return JSON.parse(localStorage.getItem(LS_FILMS)) || []; } catch(e){ return []; } }
+  function getSavedFilms() { return []; } // baked export — films are hardcoded above
   function setSavedFilms(arr) { localStorage.setItem(LS_FILMS, JSON.stringify(arr)); }
 
   function getAllFilms() {
@@ -1032,18 +1295,30 @@
 
       const item = document.createElement('div');
       item.className = 'admin-result-item';
+      item.style.cssText = 'flex-direction:column;align-items:stretch;gap:8px;';
       item.innerHTML = `
-        ${posterUrl
-          ? `<img class="admin-result-poster" src="${posterUrl}" alt="${m.title}">`
-          : `<div class="admin-result-poster-ph">🎬</div>`}
-        <div class="admin-result-info">
-          <div class="admin-result-title">${m.title}</div>
-          <div class="admin-result-meta">${year} · ⭐ ${m.vote_average ? m.vote_average.toFixed(1) : 'N/A'}</div>
-          <div class="admin-result-overview">${m.overview || 'No description available.'}</div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          ${posterUrl
+            ? `<img class="admin-result-poster" src="${posterUrl}" alt="${m.title}">`
+            : `<div class="admin-result-poster-ph">🎬</div>`}
+          <div class="admin-result-info">
+            <div class="admin-result-title">${m.title}</div>
+            <div class="admin-result-meta">${year} · ⭐ ${m.vote_average ? m.vote_average.toFixed(1) : 'N/A'}</div>
+            <div class="admin-result-overview">${m.overview || 'No description available.'}</div>
+          </div>
+          <button class="admin-add-btn ${isAdded ? 'added' : ''}" onclick="addTmdbFilm(${m.id}, this)" data-tmdb="${m.id}">
+            ${isAdded ? '✓ Added' : '+ Add'}
+          </button>
         </div>
-        <button class="admin-add-btn ${isAdded ? 'added' : ''}" onclick="addTmdbFilm(${m.id}, this)">
-          ${isAdded ? '✓ Added' : '+ Add'}
-        </button>`;
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input
+            class="admin-input"
+            data-url-for="${m.id}"
+            type="url"
+            placeholder="🔗 Paste video link (YouTube, Archive.org, direct .mp4…) — optional"
+            style="font-size:12px;padding:7px 12px;"
+          />
+        </div>`;
       box.appendChild(item);
     });
   }
@@ -1052,6 +1327,11 @@
     const key = getApiKey();
     if (!key) { showSearchStatus('err', 'Save your TMDB API token first'); return; }
     btn.disabled = true; btn.textContent = 'Adding…';
+
+    // Grab the video URL the user pasted (if any)
+    const urlInput = document.querySelector(`[data-url-for="${tmdbId}"]`);
+    const videoUrl = urlInput ? urlInput.value.trim() : '';
+    const embedUrl = convertToEmbedUrl(videoUrl);
 
     try {
       // Fetch full movie details + credits in parallel
@@ -1089,8 +1369,8 @@
         isSeries:   false,
         poster:     poster,
         backdrop:   backdrop,
-        embedUrl:   '',
-        archiveUrl: '',
+        embedUrl:   embedUrl,
+        archiveUrl: videoUrl.includes('archive.org') ? videoUrl : '',
         rank:       '#' + (saved.length + 1) + ' Added by You',
         desc:       detail.overview || 'No description available.',
         addedAt:    Date.now(),
@@ -1149,11 +1429,101 @@
       item.className = 'admin-saved-item';
       item.innerHTML = `
         ${f.poster ? `<img class="admin-saved-poster" src="${f.poster}" alt="">` : '<div style="width:26px;height:36px;border-radius:4px;background:#222;flex-shrink:0"></div>'}
-        <span class="admin-saved-name">${f.title}</span>
-        <span class="admin-saved-year">${f.year}</span>
+        <div style="flex:1;min-width:0;">
+          <div class="admin-saved-name">${f.title} <span class="admin-saved-year">${f.year}</span></div>
+          <div style="display:flex;gap:6px;margin-top:4px;">
+            <input
+              class="admin-input"
+              type="url"
+              placeholder="🔗 Add/update video link…"
+              value="${f.embedUrl || ''}"
+              oninput="updateSavedUrl(${f.tmdbId}, this.value)"
+              style="font-size:11px;padding:5px 10px;"
+            />
+          </div>
+        </div>
         <button class="admin-rm" onclick="removeSavedFilm(${f.tmdbId})" title="Remove">✕</button>`;
       list.appendChild(item);
     });
+  }
+
+  function convertToEmbedUrl(url) {
+    if (!url) return '';
+    // YouTube watch URL -> embed
+    let m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/);
+    if (m) return 'https://www.youtube.com/embed/' + m[1];
+    // YouTube already embed
+    if (url.includes('youtube.com/embed/')) return url;
+    // Archive.org details -> embed
+    m = url.match(/archive\.org\/details\/([^/?#]+)/);
+    if (m) return 'https://archive.org/embed/' + m[1];
+    // Archive.org embed already
+    if (url.includes('archive.org/embed/')) return url;
+    // Vimeo
+    m = url.match(/vimeo\.com\/(\d+)/);
+    if (m) return 'https://player.vimeo.com/video/' + m[1];
+    // Direct link or anything else — return as-is (works for .mp4 in some browsers)
+    return url;
+  }
+
+  function updateSavedUrl(tmdbId, rawUrl) {
+    const embedUrl = convertToEmbedUrl(rawUrl.trim());
+    const saved = getSavedFilms().map(f => {
+      if (f.tmdbId === tmdbId) {
+        return { ...f, embedUrl, archiveUrl: rawUrl.includes('archive.org') ? rawUrl : f.archiveUrl };
+      }
+      return f;
+    });
+    setSavedFilms(saved);
+    renderRows();
+  }
+
+  function exportBakedHTML() {
+    const saved = getSavedFilms();
+    if (!saved.length) {
+      alert('No movies added yet! Search and add some movies first.');
+      return;
+    }
+
+    // Read the current HTML
+    const html = document.documentElement.outerHTML;
+
+    // Build the JS entries for saved films to inject into FILMS array
+    const newEntries = saved.map((f, i) => {
+      const safeStr = s => (s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, ' ');
+      const castStr = (f.cast || []).map(c => `'${safeStr(c)}'`).join(',');
+      return `    { id:${20000 + i}, tmdbId:${f.tmdbId || 0}, title:'${safeStr(f.title)}', year:${f.year || 0}, director:'${safeStr(f.director)}', genre:'${safeStr(f.genre)}', duration:'${safeStr(f.duration)}', tags:[${(f.tags||[]).map(t=>`'${safeStr(t)}'`).join(',')}], emoji:'🎬', cast:[${castStr}], isSeries:false, poster:'${safeStr(f.poster)}', backdrop:'${safeStr(f.backdrop || f.poster)}', embedUrl:'${safeStr(f.embedUrl)}', archiveUrl:'${safeStr(f.archiveUrl)}', rank:'${safeStr(f.rank)}', desc:'${safeStr(f.desc)}', isSeries:false, fromTmdb:true }`;
+    }).join(',\n');
+
+    // Inject before the closing of the FILMS array (before the line with only "];")
+    // Find the marker: last film entry ends with }, then ];
+    const filmsEndMarker = '  ];\n\n  const ROWS';
+    const injected = html.replace(
+      filmsEndMarker,
+      `,\n${newEntries}\n  ];\n\n  const ROWS`
+    );
+
+    // Also strip out the localStorage load so the baked file doesn't mix sources
+    // (keep getSavedFilms returning [] in baked version so no duplication)
+    const cleaned = injected.replace(
+      'function getSavedFilms() { try { return JSON.parse(localStorage.getItem(LS_FILMS)) || []; } catch(e){ return []; } }',
+      'function getSavedFilms() { return []; } // baked export — films are hardcoded above'
+    );
+
+    // Add the Modern Hits row filter to include new film ids if not already present
+    const newIds = saved.map((_, i) => 20000 + i);
+    // patch the modern row filter
+    const modernFixed = cleaned.replace(
+      "{ id:'modern',     filter: m => [15].includes(m.id) },",
+      `{ id:'modern',     filter: m => [15,${newIds.join(',')}].includes(m.id) },`
+    );
+
+    const blob = new Blob([modernFixed], { type: 'text/html' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'ReelVault.html';
+    a.click();
+    URL.revokeObjectURL(a.href);
   }
 
   function openAdmin() {
@@ -1267,12 +1637,12 @@
 </script>
 
 <!-- ADMIN PANEL -->
-<div class="admin-backdrop" id="adminBackdrop" onclick="handleAdminBackdrop(event)">
+<div class="admin-backdrop open" id="adminBackdrop" onclick="handleAdminBackdrop(event)">
   <div class="admin-panel">
     <div class="admin-header">
       <div>
         <div class="admin-header-title">🎬 Add Movies via TMDB</div>
-        <div class="admin-header-sub">Search any movie — info & poster auto-fill and save across refreshes</div>
+        <div class="admin-header-sub">Search any movie — info &amp; poster auto-fill and save across refreshes</div>
       </div>
       <button class="admin-close" onclick="closeAdmin()">✕</button>
     </div>
@@ -1281,37 +1651,170 @@
       <!-- API Key -->
       <div class="admin-section-label">TMDB API Read Access Token</div>
       <div class="admin-row">
-        <input class="admin-input" id="adminApiKey" type="password" placeholder="Paste your Bearer token from themoviedb.org/settings/api" />
+        <input class="admin-input" id="adminApiKey" type="password" placeholder="Paste your Bearer token from themoviedb.org/settings/api">
         <button class="admin-btn" onclick="saveApiKey()">Save</button>
       </div>
-      <div class="admin-status" id="keyStatus"></div>
+      <div class="admin-status ok" id="keyStatus">✓ API token loaded</div>
 
       <div class="admin-divider"></div>
 
       <!-- Search -->
       <div class="admin-section-label">Search for a Movie</div>
       <div class="admin-row">
-        <input class="admin-input" id="adminSearchInput" type="text" placeholder="e.g. The Godfather, Alien, Parasite…" onkeydown="if(event.key==='Enter')tmdbSearch()" />
+        <input class="admin-input" id="adminSearchInput" type="text" placeholder="e.g. The Godfather, Alien, Parasite…" onkeydown="if(event.key==='Enter')tmdbSearch()">
         <button class="admin-btn" id="adminSearchBtn" onclick="tmdbSearch()">Search</button>
       </div>
       <div class="admin-status" id="searchStatus"></div>
-      <div class="admin-results" id="adminResults">
-        <div class="admin-empty">Enter a movie title above and hit Search</div>
-      </div>
+      <div class="admin-results" id="adminResults"><div class="admin-result-item" style="flex-direction: column; align-items: stretch; gap: 8px;">
+        <div style="display:flex;gap:12px;align-items:center;">
+          <img class="admin-result-poster" src="https://image.tmdb.org/t/p/w500/nEbfoMReYH7i1Mm6uQDGwpmHGdl.jpg" alt="Edward &amp; Mrs. Simpson">
+          <div class="admin-result-info">
+            <div class="admin-result-title">Edward &amp; Mrs. Simpson</div>
+            <div class="admin-result-meta">1978 · ⭐ 10.0</div>
+            <div class="admin-result-overview">While still the Prince of Wales, the future Edward VIII meets the married American socialite, Wallis Simpson. Their relationship causes furor in the palace and in parliament, especially when King George V dies, Mrs. Simpson gets divorced, and King Edward announces his intentions to marry her.</div>
+          </div>
+          <button class="admin-add-btn " onclick="addTmdbFilm(266318, this)" data-tmdb="266318">
+            + Add
+          </button>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input class="admin-input" data-url-for="266318" type="url" placeholder="🔗 Paste video link (YouTube, Archive.org, direct .mp4…) — optional" style="font-size:12px;padding:7px 12px;">
+        </div></div><div class="admin-result-item" style="flex-direction: column; align-items: stretch; gap: 8px;">
+        <div style="display:flex;gap:12px;align-items:center;">
+          <img class="admin-result-poster" src="https://image.tmdb.org/t/p/w500/7YGA3fzTb1VyIasPQyCvtvnaPo3.jpg" alt="20 years of Simpsons">
+          <div class="admin-result-info">
+            <div class="admin-result-title">20 years of Simpsons</div>
+            <div class="admin-result-meta">2009 · ⭐ N/A</div>
+            <div class="admin-result-overview">A short French documentary to celebrate the twentieth anniversary of the show.</div>
+          </div>
+          <button class="admin-add-btn added" onclick="addTmdbFilm(1357822, this)" data-tmdb="1357822">✓ Added</button>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input class="admin-input" data-url-for="1357822" type="url" placeholder="🔗 Paste video link (YouTube, Archive.org, direct .mp4…) — optional" style="font-size:12px;padding:7px 12px;">
+        </div></div><div class="admin-result-item" style="flex-direction: column; align-items: stretch; gap: 8px;">
+        <div style="display:flex;gap:12px;align-items:center;">
+          <img class="admin-result-poster" src="https://image.tmdb.org/t/p/w500/ovdLqc47iRv0CSupmtgT9AyDedy.jpg" alt="Sudie and Simpson">
+          <div class="admin-result-info">
+            <div class="admin-result-title">Sudie and Simpson</div>
+            <div class="admin-result-meta">1990 · ⭐ 6.9</div>
+            <div class="admin-result-overview">A television movie about the friendship that develops between a young white girl and an older black man in a racist, rural Georgia town during the 1940s.</div>
+          </div>
+          <button class="admin-add-btn " onclick="addTmdbFilm(132947, this)" data-tmdb="132947">
+            + Add
+          </button>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input class="admin-input" data-url-for="132947" type="url" placeholder="🔗 Paste video link (YouTube, Archive.org, direct .mp4…) — optional" style="font-size:12px;padding:7px 12px;">
+        </div></div><div class="admin-result-item" style="flex-direction: column; align-items: stretch; gap: 8px;">
+        <div style="display:flex;gap:12px;align-items:center;">
+          <img class="admin-result-poster" src="https://image.tmdb.org/t/p/w500/nJmsu2jmyUevUz2qWoxsgRNVyf3.jpg" alt="Being Homer Simpson">
+          <div class="admin-result-info">
+            <div class="admin-result-title">Being Homer Simpson</div>
+            <div class="admin-result-meta">2013 · ⭐ 7.6</div>
+            <div class="admin-result-overview">No description available.</div>
+          </div>
+          <button class="admin-add-btn " onclick="addTmdbFilm(253818, this)" data-tmdb="253818">
+            + Add
+          </button>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input class="admin-input" data-url-for="253818" type="url" placeholder="🔗 Paste video link (YouTube, Archive.org, direct .mp4…) — optional" style="font-size:12px;padding:7px 12px;">
+        </div></div><div class="admin-result-item" style="flex-direction: column; align-items: stretch; gap: 8px;">
+        <div style="display:flex;gap:12px;align-items:center;">
+          <img class="admin-result-poster" src="https://image.tmdb.org/t/p/w500/bKARutaJ1UGgbdis6UVi248rZVT.jpg" alt="Sally Simpson">
+          <div class="admin-result-info">
+            <div class="admin-result-title">Sally Simpson</div>
+            <div class="admin-result-meta">1971 · ⭐ N/A</div>
+            <div class="admin-result-overview">Sally Simpson played to a song rendered by Bette Midler (one of the cast) behind the proscenium curtain. Filmed in San Francisco in collaborated with a friend, Wilfred Satty, who had gained a reputation for illustrations of rock posters.  Satty was one of San Francisco's most colorful personalities, a German artist who lived near Bay street, and would throw extravagant parties in the basement of his studio.  He died prematurely, cracking his head when he fell off a ladder in his studio.  His memorial was held in the rotunda of the Palace of Fine Arts and attended by over 400 mourners.</div>
+          </div>
+          <button class="admin-add-btn " onclick="addTmdbFilm(804994, this)" data-tmdb="804994">
+            + Add
+          </button>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input class="admin-input" data-url-for="804994" type="url" placeholder="🔗 Paste video link (YouTube, Archive.org, direct .mp4…) — optional" style="font-size:12px;padding:7px 12px;">
+        </div></div><div class="admin-result-item" style="flex-direction: column; align-items: stretch; gap: 8px;">
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div class="admin-result-poster-ph">🎬</div>
+          <div class="admin-result-info">
+            <div class="admin-result-title">Simpson Street</div>
+            <div class="admin-result-meta">1979 · ⭐ 7.5</div>
+            <div class="admin-result-overview">Simpson Street is a portrait of a neighborhood in New York's South Bronx shot during the 'Summer of Sam', 1977. It opens with a brief history of the neighborhood and a description of the causes of the fire storm that destroyed an area of New York the size of the city of Boston. The focus though is on the life that remains. Watch for a brief glimpse of DJ Flash (now better known as Grandmaster Flash) running the turntables at a party on the roof of a settlement house called the Casita Maria on .... Simpson Street.</div>
+          </div>
+          <button class="admin-add-btn " onclick="addTmdbFilm(412295, this)" data-tmdb="412295">
+            + Add
+          </button>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input class="admin-input" data-url-for="412295" type="url" placeholder="🔗 Paste video link (YouTube, Archive.org, direct .mp4…) — optional" style="font-size:12px;padding:7px 12px;">
+        </div></div><div class="admin-result-item" style="flex-direction: column; align-items: stretch; gap: 8px;">
+        <div style="display:flex;gap:12px;align-items:center;">
+          <img class="admin-result-poster" src="https://image.tmdb.org/t/p/w500/bUuYRCy2SmWZ9hhGpMFhJHppqTh.jpg" alt="Wallis Simpson: The Secret Letters">
+          <div class="admin-result-info">
+            <div class="admin-result-title">Wallis Simpson: The Secret Letters</div>
+            <div class="admin-result-meta">2011 · ⭐ N/A</div>
+            <div class="admin-result-overview">This film examines recently discovered letters written by socialite Wallis Simpson that reveal her secret love, and chart her fear as she found herself becoming trapped into marrying King Edward VIII.</div>
+          </div>
+          <button class="admin-add-btn " onclick="addTmdbFilm(855353, this)" data-tmdb="855353">
+            + Add
+          </button>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input class="admin-input" data-url-for="855353" type="url" placeholder="🔗 Paste video link (YouTube, Archive.org, direct .mp4…) — optional" style="font-size:12px;padding:7px 12px;">
+        </div></div><div class="admin-result-item" style="flex-direction: column; align-items: stretch; gap: 8px;">
+        <div style="display:flex;gap:12px;align-items:center;">
+          <img class="admin-result-poster" src="https://image.tmdb.org/t/p/w500/zJT7D9T6RWWGM79BTOvmM9knweh.jpg" alt="The Reverend and Mrs Simpson">
+          <div class="admin-result-info">
+            <div class="admin-result-title">The Reverend and Mrs Simpson</div>
+            <div class="admin-result-meta">2022 · ⭐ 6.7</div>
+            <div class="admin-result-overview">The discovery of human remains at a churchyard connects to the hardships faced by a German woman and her son 40 years earlier as they tried to build a new life in 1950s Britain.</div>
+          </div>
+          <button class="admin-add-btn " onclick="addTmdbFilm(1150331, this)" data-tmdb="1150331">
+            + Add
+          </button>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input class="admin-input" data-url-for="1150331" type="url" placeholder="🔗 Paste video link (YouTube, Archive.org, direct .mp4…) — optional" style="font-size:12px;padding:7px 12px;">
+        </div></div></div>
 
       <!-- Saved -->
-      <div class="admin-divider" id="savedDivider" style="display:none"></div>
-      <div id="savedSection" style="display:none">
+      <div class="admin-divider" id="savedDivider" style=""></div>
+      <div id="savedSection" style="">
         <div class="admin-section-label" style="display:flex;align-items:center;justify-content:space-between">
-          <span>Added Movies (<span id="savedCount">0</span>)</span>
+          <span>Added Movies (<span id="savedCount">2</span>)</span>
           <button class="admin-btn admin-btn-ghost" style="font-size:11px;padding:4px 10px;" onclick="clearAllSaved()">Clear all</button>
         </div>
-        <div class="admin-saved-list" id="adminSavedList"></div>
+        <div class="admin-saved-list" id="adminSavedList"><div class="admin-saved-item">
+        <img class="admin-saved-poster" src="https://image.tmdb.org/t/p/w500/rhGx6E3qRNMgj3i5su2oukNHwIQ.jpg" alt="">
+        <div style="flex:1;min-width:0;">
+          <div class="admin-saved-name">Backrooms <span class="admin-saved-year">2026</span></div>
+          <div style="display:flex;gap:6px;margin-top:4px;">
+            <input class="admin-input" type="url" placeholder="🔗 Add/update video link…" value="" oninput="updateSavedUrl(1083381, this.value)" style="font-size:11px;padding:5px 10px;">
+          </div>
+        </div>
+        <button class="admin-rm" onclick="removeSavedFilm(1083381)" title="Remove">✕</button></div><div class="admin-saved-item">
+        <img class="admin-saved-poster" src="https://image.tmdb.org/t/p/w500/7YGA3fzTb1VyIasPQyCvtvnaPo3.jpg" alt="">
+        <div style="flex:1;min-width:0;">
+          <div class="admin-saved-name">20 years of Simpsons <span class="admin-saved-year">2009</span></div>
+          <div style="display:flex;gap:6px;margin-top:4px;">
+            <input class="admin-input" type="url" placeholder="🔗 Add/update video link…" value="" oninput="updateSavedUrl(1357822, this.value)" style="font-size:11px;padding:5px 10px;">
+          </div>
+        </div>
+        <button class="admin-rm" onclick="removeSavedFilm(1357822)" title="Remove">✕</button></div></div>
+
+        <div style="margin-top:16px;padding:14px;background:rgba(124,92,191,0.1);border:1px solid rgba(124,92,191,0.25);border-radius:10px;">
+          <div style="font-size:12px;font-weight:600;color:#9b7de0;margin-bottom:6px;">📦 Bake into HTML &amp; share</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px;line-height:1.6;">Downloads a new <code style="background:#1a1a22;padding:1px 5px;border-radius:3px;font-size:10px;">ReelVault.html</code> with your added movies permanently hardcoded in — share this file with anyone and they'll see everything.</div>
+          <button class="admin-btn" style="width:100%;justify-content:center;display:flex;gap:8px;align-items:center;" onclick="exportBakedHTML()">
+            ⬇ Download updated ReelVault.html
+          </button>
+        </div>
       </div>
 
     </div>
   </div>
 </div>
 
-</body>
-</html>
+
+
+</body></html>
