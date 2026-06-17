@@ -346,7 +346,7 @@
       background: #141418;
       z-index: 500;
       display: flex; flex-direction: column;
-      transform: translateX(-100%);
+      transform: translateX(calc(-100% - var(--sidebar-w)));
       transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
       border-right: 1px solid #1e1e28;
       overflow: hidden;
@@ -511,6 +511,52 @@
     .search-results-title { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
     .search-results-title span { color: var(--text-primary); font-weight: 600; }
     .search-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    /* ── ADMIN PANEL ── */
+    .admin-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.82); z-index:700; align-items:center; justify-content:center; padding:24px; }
+    .admin-backdrop.open { display:flex; }
+    .admin-panel { background:#13131a; border:1px solid #2a2a3a; border-radius:14px; width:100%; max-width:560px; max-height:90vh; display:flex; flex-direction:column; overflow:hidden; animation:modalIn 0.22s ease; }
+    .admin-header { padding:18px 22px 14px; border-bottom:1px solid #1e1e28; display:flex; align-items:flex-start; justify-content:space-between; flex-shrink:0; }
+    .admin-header-title { font-size:15px; font-weight:700; color:#fff; }
+    .admin-header-sub { font-size:11px; color:var(--text-muted); margin-top:3px; }
+    .admin-close { width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,0.06); border:1px solid #2a2a3a; color:#888; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .admin-close:hover { color:#fff; }
+    .admin-body { padding:20px 22px; overflow-y:auto; flex:1; scrollbar-width:thin; scrollbar-color:#2a2a3a transparent; }
+    .admin-section-label { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; }
+    .admin-row { display:flex; gap:8px; margin-bottom:14px; }
+    .admin-input { flex:1; background:#1a1a22; border:1px solid #2a2a3a; border-radius:8px; padding:9px 14px; color:var(--text-primary); font-family:'Inter',sans-serif; font-size:13px; outline:none; transition:border-color 0.2s; }
+    .admin-input:focus { border-color:var(--accent); }
+    .admin-input::placeholder { color:var(--text-muted); }
+    .admin-btn { background:var(--accent); color:#fff; border:none; border-radius:8px; padding:9px 18px; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; cursor:pointer; white-space:nowrap; transition:background 0.2s; }
+    .admin-btn:hover { background:var(--accent-bright); }
+    .admin-btn:disabled { opacity:0.4; cursor:default; }
+    .admin-btn-ghost { background:#1e1e2a; color:var(--text-secondary); border:1px solid #2a2a3a; }
+    .admin-btn-ghost:hover { background:#2a2a3a; color:#fff; }
+    .admin-status { font-size:12px; padding:8px 12px; border-radius:7px; margin-bottom:14px; display:none; }
+    .admin-status.ok  { background:rgba(76,168,122,0.12); color:#4ca87a; border:1px solid rgba(76,168,122,0.2); display:block; }
+    .admin-status.err { background:rgba(192,80,80,0.12);  color:#c05050; border:1px solid rgba(192,80,80,0.2); display:block; }
+    .admin-status.info{ background:rgba(124,92,191,0.12); color:#9b7de0; border:1px solid rgba(124,92,191,0.2); display:block; }
+    .admin-divider { height:1px; background:#1e1e28; margin:16px 0; }
+    .admin-results { display:flex; flex-direction:column; gap:8px; }
+    .admin-result-item { display:flex; gap:12px; align-items:center; background:#1a1a22; border:1px solid #1e1e28; border-radius:10px; padding:10px 12px; }
+    .admin-result-poster { width:42px; height:58px; border-radius:5px; object-fit:cover; flex-shrink:0; background:#111; }
+    .admin-result-poster-ph { width:42px; height:58px; border-radius:5px; background:#222; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+    .admin-result-info { flex:1; min-width:0; }
+    .admin-result-title { font-size:13px; font-weight:600; color:#fff; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .admin-result-meta { font-size:11px; color:var(--text-muted); margin-bottom:3px; }
+    .admin-result-overview { font-size:11px; color:#555; line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .admin-add-btn { background:var(--accent); color:#fff; border:none; border-radius:6px; padding:6px 12px; font-family:'Inter',sans-serif; font-size:11px; font-weight:600; cursor:pointer; flex-shrink:0; transition:background 0.2s; }
+    .admin-add-btn:hover { background:var(--accent-bright); }
+    .admin-add-btn.added { background:#1a3a1a; color:#4ca87a; cursor:default; }
+    .admin-empty { font-size:13px; color:var(--text-muted); text-align:center; padding:28px 0; }
+    .admin-saved-list { display:flex; flex-direction:column; gap:6px; }
+    .admin-saved-item { display:flex; align-items:center; gap:10px; background:#1a1a22; border-radius:8px; padding:8px 10px; }
+    .admin-saved-poster { width:26px; height:36px; border-radius:4px; object-fit:cover; flex-shrink:0; }
+    .admin-saved-name { flex:1; font-size:12px; color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .admin-saved-year { font-size:11px; color:var(--text-muted); flex-shrink:0; }
+    .admin-rm { background:none; border:none; color:#444; font-size:15px; cursor:pointer; padding:0 2px; transition:color 0.15s; }
+    .admin-rm:hover { color:#c05050; }
+
   </style>
 </head>
 <body>
@@ -526,7 +572,7 @@
   <div class="sb-spacer"></div>
   <div class="sb-divider"></div>
   <a class="sb-icon" href="#" title="Notifications">🔔</a>
-  <a class="sb-icon" href="#" title="Settings">⚙️</a>
+  <a class="sb-icon" href="#" title="Add Movies" onclick="openAdmin();return false;">➕</a>
   <div class="nav-avatar" style="width:32px;height:32px;font-size:12px;margin-top:4px;">R</div>
 </div>
 
@@ -602,6 +648,10 @@
 
   <!-- ROWS -->
   <div class="rows-area" id="mainContent">
+    <div class="row" id="row-added" style="display:none">
+      <div class="row-header"><span class="row-title">✨ Added by You</span><span class="row-count" id="count-added"></span></div>
+      <div class="row-scroll" id="scroll-added"></div>
+    </div>
     <div class="row" id="row-popular">
       <div class="row-header"><span class="row-title">Popular on Reel Vault</span><span class="row-count" id="count-popular"></span></div>
       <div class="row-scroll" id="scroll-popular"></div>
@@ -897,9 +947,371 @@
     }, 350);
   }
 
+
+  // ── LOCALSTORAGE TMDB SYSTEM ──
+  const LS_FILMS  = 'rv_added_films';
+  const LS_APIKEY = 'rv_tmdb_key';
+  const TMDB_IMG  = 'https://image.tmdb.org/t/p/w500';
+  const TMDB_BG   = 'https://image.tmdb.org/t/p/w1280';
+
+  function getApiKey() { return localStorage.getItem(LS_APIKEY) || ''; }
+  function getSavedFilms() { try { return JSON.parse(localStorage.getItem(LS_FILMS)) || []; } catch(e){ return []; } }
+  function setSavedFilms(arr) { localStorage.setItem(LS_FILMS, JSON.stringify(arr)); }
+
+  function getAllFilms() {
+    // merge hardcoded + saved, deduplicate by tmdb id
+    const saved = getSavedFilms();
+    return [...FILMS, ...saved];
+  }
+
+  function saveApiKey() {
+    const val = document.getElementById('adminApiKey').value.trim();
+    if (!val) { showKeyStatus('err', 'Please paste your TMDB API Read Access Token'); return; }
+    localStorage.setItem(LS_APIKEY, val);
+    showKeyStatus('ok', '✓ Key saved — you can now search movies');
+  }
+
+  function showKeyStatus(cls, msg) {
+    const el = document.getElementById('keyStatus');
+    el.className = 'admin-status ' + cls;
+    el.textContent = msg;
+  }
+  function showSearchStatus(cls, msg) {
+    const el = document.getElementById('searchStatus');
+    el.className = 'admin-status ' + cls;
+    el.textContent = msg;
+  }
+  function hideSearchStatus() {
+    const el = document.getElementById('searchStatus');
+    el.className = 'admin-status';
+    el.textContent = '';
+  }
+
+  async function tmdbSearch() {
+    const query = document.getElementById('adminSearchInput').value.trim();
+    const key   = getApiKey();
+    if (!key)   { showSearchStatus('err', 'Save your TMDB API token first (above)'); return; }
+    if (!query) { showSearchStatus('err', 'Enter a movie title to search'); return; }
+
+    const btn = document.getElementById('adminSearchBtn');
+    btn.disabled = true; btn.textContent = 'Searching…';
+    showSearchStatus('info', 'Fetching from TMDB…');
+
+    try {
+      const res  = await fetch(
+        `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}&language=en-US&page=1`,
+        { headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' } }
+      );
+      if (!res.ok) throw new Error('TMDB API error ' + res.status + ' — check your token');
+      const data = await res.json();
+      hideSearchStatus();
+      renderTmdbResults(data.results || []);
+    } catch(e) {
+      showSearchStatus('err', e.message);
+    } finally {
+      btn.disabled = false; btn.textContent = 'Search';
+    }
+  }
+
+  function renderTmdbResults(results) {
+    const box = document.getElementById('adminResults');
+    const saved = getSavedFilms();
+    const savedIds = new Set(saved.map(f => f.tmdbId));
+    const hardIds  = new Set(FILMS.map(f => f.tmdbId).filter(Boolean));
+
+    if (!results.length) {
+      box.innerHTML = '<div class="admin-empty">No results found — try a different title</div>';
+      return;
+    }
+
+    box.innerHTML = '';
+    results.slice(0, 8).forEach(m => {
+      const year = m.release_date ? m.release_date.slice(0,4) : '—';
+      const posterUrl = m.poster_path ? TMDB_IMG + m.poster_path : '';
+      const isAdded   = savedIds.has(m.id) || hardIds.has(m.id);
+
+      const item = document.createElement('div');
+      item.className = 'admin-result-item';
+      item.innerHTML = `
+        ${posterUrl
+          ? `<img class="admin-result-poster" src="${posterUrl}" alt="${m.title}">`
+          : `<div class="admin-result-poster-ph">🎬</div>`}
+        <div class="admin-result-info">
+          <div class="admin-result-title">${m.title}</div>
+          <div class="admin-result-meta">${year} · ⭐ ${m.vote_average ? m.vote_average.toFixed(1) : 'N/A'}</div>
+          <div class="admin-result-overview">${m.overview || 'No description available.'}</div>
+        </div>
+        <button class="admin-add-btn ${isAdded ? 'added' : ''}" onclick="addTmdbFilm(${m.id}, this)">
+          ${isAdded ? '✓ Added' : '+ Add'}
+        </button>`;
+      box.appendChild(item);
+    });
+  }
+
+  async function addTmdbFilm(tmdbId, btn) {
+    const key = getApiKey();
+    if (!key) { showSearchStatus('err', 'Save your TMDB API token first'); return; }
+    btn.disabled = true; btn.textContent = 'Adding…';
+
+    try {
+      // Fetch full movie details + credits in parallel
+      const [detailRes, creditsRes] = await Promise.all([
+        fetch(`https://api.themoviedb.org/3/movie/${tmdbId}?language=en-US`,
+          { headers: { Authorization: 'Bearer ' + key } }),
+        fetch(`https://api.themoviedb.org/3/movie/${tmdbId}/credits?language=en-US`,
+          { headers: { Authorization: 'Bearer ' + key } })
+      ]);
+      const detail  = await detailRes.json();
+      const credits = await creditsRes.json();
+
+      const director = (credits.crew || []).find(c => c.job === 'Director');
+      const cast     = (credits.cast || []).slice(0,4).map(c => c.name);
+      const genre    = detail.genres && detail.genres[0] ? detail.genres[0].name : 'Drama';
+      const runtime  = detail.runtime ? detail.runtime + ' min' : '—';
+      const year     = detail.release_date ? parseInt(detail.release_date.slice(0,4)) : 0;
+      const poster   = detail.poster_path  ? TMDB_IMG + detail.poster_path  : '';
+      const backdrop = detail.backdrop_path ? TMDB_BG  + detail.backdrop_path : poster;
+
+      const saved = getSavedFilms();
+      const newId = 10000 + Date.now() % 100000; // unique id for added films
+
+      const film = {
+        id:         newId,
+        tmdbId:     tmdbId,
+        title:      detail.title,
+        year:       year,
+        director:   director ? director.name : 'Unknown',
+        genre:      genre,
+        duration:   runtime,
+        tags:       (detail.genres || []).map(g => g.name).slice(0,3),
+        emoji:      '🎬',
+        cast:       cast,
+        isSeries:   false,
+        poster:     poster,
+        backdrop:   backdrop,
+        embedUrl:   '',
+        archiveUrl: '',
+        rank:       '#' + (saved.length + 1) + ' Added by You',
+        desc:       detail.overview || 'No description available.',
+        addedAt:    Date.now(),
+        fromTmdb:   true
+      };
+
+      saved.push(film);
+      setSavedFilms(saved);
+
+      btn.className = 'admin-add-btn added';
+      btn.textContent = '✓ Added';
+      btn.disabled = false;
+
+      renderSavedList();
+      renderRows(); // refresh main UI
+      showSearchStatus('ok', `✓ "${detail.title}" added to your library`);
+      setTimeout(() => hideSearchStatus(), 3000);
+
+    } catch(e) {
+      btn.disabled = false; btn.textContent = '+ Add';
+      showSearchStatus('err', 'Failed to fetch details: ' + e.message);
+    }
+  }
+
+  function removeSavedFilm(tmdbId) {
+    const saved = getSavedFilms().filter(f => f.tmdbId !== tmdbId);
+    setSavedFilms(saved);
+    renderSavedList();
+    renderRows();
+    // refresh search results to show un-added state
+    const q = document.getElementById('adminSearchInput').value.trim();
+    if (q) tmdbSearch();
+  }
+
+  function clearAllSaved() {
+    if (!confirm('Remove all added movies?')) return;
+    setSavedFilms([]);
+    renderSavedList();
+    renderRows();
+  }
+
+  function renderSavedList() {
+    const saved   = getSavedFilms();
+    const section = document.getElementById('savedSection');
+    const divider = document.getElementById('savedDivider');
+    const list    = document.getElementById('adminSavedList');
+    const count   = document.getElementById('savedCount');
+
+    if (!saved.length) { section.style.display = 'none'; divider.style.display = 'none'; return; }
+    section.style.display = ''; divider.style.display = '';
+    count.textContent = saved.length;
+
+    list.innerHTML = '';
+    saved.forEach(f => {
+      const item = document.createElement('div');
+      item.className = 'admin-saved-item';
+      item.innerHTML = `
+        ${f.poster ? `<img class="admin-saved-poster" src="${f.poster}" alt="">` : '<div style="width:26px;height:36px;border-radius:4px;background:#222;flex-shrink:0"></div>'}
+        <span class="admin-saved-name">${f.title}</span>
+        <span class="admin-saved-year">${f.year}</span>
+        <button class="admin-rm" onclick="removeSavedFilm(${f.tmdbId})" title="Remove">✕</button>`;
+      list.appendChild(item);
+    });
+  }
+
+  function openAdmin() {
+    document.getElementById('adminBackdrop').classList.add('open');
+    const key = getApiKey();
+    if (key) {
+      const inp = document.getElementById('adminApiKey');
+      inp.value = key;
+      showKeyStatus('ok', '✓ API token loaded');
+    }
+    renderSavedList();
+  }
+  function closeAdmin() { document.getElementById('adminBackdrop').classList.remove('open'); }
+  function handleAdminBackdrop(e) { if (e.target === document.getElementById('adminBackdrop')) closeAdmin(); }
+
+  // ── OVERRIDE getAllFilms to merge saved ──
+  function getAllFilms() {
+    const saved = getSavedFilms();
+    const usedIds = new Set(FILMS.map(f => f.id));
+    const merged  = [...FILMS];
+    saved.forEach(f => { if (!usedIds.has(f.id)) merged.push(f); });
+    return merged;
+  }
+
+  // ── OVERRIDE renderRows to use merged list ──
+  function renderRows() {
+    const all      = getAllFilms();
+    const filtered = currentFilter ? all.filter(m => m.tags.includes(currentFilter) || m.genre === currentFilter) : all;
+
+    const savedFilms = getSavedFilms();
+
+    // Dynamic rows: added row appears when there are saved films
+    const dynamicRow = document.getElementById('row-added');
+    if (dynamicRow) {
+      if (savedFilms.length) {
+        dynamicRow.style.display = '';
+        document.getElementById('count-added').textContent = savedFilms.length + ' film' + (savedFilms.length !== 1 ? 's' : '');
+        const scroll = document.getElementById('scroll-added');
+        scroll.innerHTML = '';
+        savedFilms.forEach(m => scroll.appendChild(makeCard(m)));
+      } else {
+        dynamicRow.style.display = 'none';
+      }
+    }
+
+    ROWS.forEach(row => {
+      const films = filtered.filter(row.filter);
+      const scroll = document.getElementById('scroll-' + row.id);
+      const count  = document.getElementById('count-'  + row.id);
+      const rowEl  = document.getElementById('row-'    + row.id);
+      if (!scroll) return;
+      scroll.innerHTML = '';
+      rowEl.style.display = films.length ? '' : 'none';
+      if (!films.length) return;
+      count.textContent = films.length + ' film' + (films.length !== 1 ? 's' : '');
+      films.forEach(m => scroll.appendChild(makeCard(m)));
+    });
+  }
+
+  // ── OVERRIDE openModal to support tmdb films (no archive url) ──
+  function openModal(id) {
+    const all = getAllFilms();
+    const m   = all.find(f => f.id === id);
+    if (!m) return;
+
+    const poster = document.getElementById('drawerPoster');
+    const iframe = document.getElementById('drawerIframe');
+    const bgSrc  = m.backdrop || m.poster || '';
+    poster.src = bgSrc;
+    poster.style.display = bgSrc ? '' : 'none';
+    iframe.src = ''; iframe.style.display = 'none';
+
+    document.getElementById('drawerTitle').textContent    = m.title;
+    document.getElementById('drawerYear').textContent     = m.year;
+    document.getElementById('drawerGenre').textContent    = m.genre;
+    document.getElementById('drawerDuration').textContent = m.duration;
+    document.getElementById('drawerDesc').textContent     = m.desc;
+    document.getElementById('drawerRank').textContent     = m.rank || '#1 in Classics Today';
+    document.getElementById('drawerDirector').textContent = m.director;
+    document.getElementById('drawerArchiveLink').href     = m.archiveUrl || '#';
+    document.getElementById('drawerArchiveLink').style.display = m.archiveUrl ? '' : 'none';
+
+    const castLine = document.getElementById('drawerCastLine');
+    if (m.cast && m.cast.length) {
+      castLine.style.display = '';
+      castLine.innerHTML = `Cast: <span>${m.cast.join(', ')}</span>`;
+    } else { castLine.style.display = 'none'; }
+
+    document.getElementById('drawerPlayBtn').onclick = () => {
+      if (m.embedUrl) {
+        iframe.src = m.embedUrl;
+        iframe.style.display = 'block';
+        poster.style.display = 'none';
+        const grad = document.getElementById('drawerMedia').querySelector('.drawer-media-gradient');
+        if (grad) grad.style.display = 'none';
+      } else {
+        alert('No free stream available for this title. Try searching on Archive.org.');
+      }
+    };
+
+    document.getElementById('drawerEpisodesBtn').style.display = m.isSeries ? '' : 'none';
+    document.querySelectorAll('.drawer-thumb-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('drawerBackdrop').classList.add('open');
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('drawer').querySelector('.drawer-body').scrollTop = 0;
+  }
+
   // Init
   document.getElementById('heroBgImg').src = FILMS[0].poster;
   renderRows();
 </script>
+
+<!-- ADMIN PANEL -->
+<div class="admin-backdrop" id="adminBackdrop" onclick="handleAdminBackdrop(event)">
+  <div class="admin-panel">
+    <div class="admin-header">
+      <div>
+        <div class="admin-header-title">🎬 Add Movies via TMDB</div>
+        <div class="admin-header-sub">Search any movie — info & poster auto-fill and save across refreshes</div>
+      </div>
+      <button class="admin-close" onclick="closeAdmin()">✕</button>
+    </div>
+    <div class="admin-body">
+
+      <!-- API Key -->
+      <div class="admin-section-label">TMDB API Read Access Token</div>
+      <div class="admin-row">
+        <input class="admin-input" id="adminApiKey" type="password" placeholder="Paste your Bearer token from themoviedb.org/settings/api" />
+        <button class="admin-btn" onclick="saveApiKey()">Save</button>
+      </div>
+      <div class="admin-status" id="keyStatus"></div>
+
+      <div class="admin-divider"></div>
+
+      <!-- Search -->
+      <div class="admin-section-label">Search for a Movie</div>
+      <div class="admin-row">
+        <input class="admin-input" id="adminSearchInput" type="text" placeholder="e.g. The Godfather, Alien, Parasite…" onkeydown="if(event.key==='Enter')tmdbSearch()" />
+        <button class="admin-btn" id="adminSearchBtn" onclick="tmdbSearch()">Search</button>
+      </div>
+      <div class="admin-status" id="searchStatus"></div>
+      <div class="admin-results" id="adminResults">
+        <div class="admin-empty">Enter a movie title above and hit Search</div>
+      </div>
+
+      <!-- Saved -->
+      <div class="admin-divider" id="savedDivider" style="display:none"></div>
+      <div id="savedSection" style="display:none">
+        <div class="admin-section-label" style="display:flex;align-items:center;justify-content:space-between">
+          <span>Added Movies (<span id="savedCount">0</span>)</span>
+          <button class="admin-btn admin-btn-ghost" style="font-size:11px;padding:4px 10px;" onclick="clearAllSaved()">Clear all</button>
+        </div>
+        <div class="admin-saved-list" id="adminSavedList"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
