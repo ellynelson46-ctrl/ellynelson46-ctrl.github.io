@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reel Vault — Series</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0b0b0f;
+      --surface: #16161e;
+      --surface2: #1e1e2a;
+      --border: #2a2a3a;
+      --text-primary: #f0eee8;
+      --text-secondary: #9994a8;
+      --text-muted: #4a4860;
+      --gold: #c9a84c;
+      --accent: #7c5cbf;
+      --accent-bright: #9b7de0;
+      --sidebar-w: 60px;
+    }
+    html, body { height: 100%; overflow: hidden; }
+    body { background: var(--bg); color: var(--text-primary); font-family: 'Inter', sans-serif; display: flex; flex-direction: column; }
+
+    /* NAV */
+    .topnav {
+      position: fixed; top: 0; left: var(--sidebar-w); right: 0;
+      z-index: 100; height: 56px;
+      display: flex; align-items: center; padding: 0 32px; gap: 0;
+      background: linear-gradient(to bottom, rgba(11,11,15,0.95) 60%, transparent);
+    }
+    .nav-logo { font-size: 18px; font-weight: 900; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; white-space: nowrap; margin-right: 32px; }
+    .nav-links { display: flex; gap: 2px; list-style: none; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+    .nav-links a:hover { color: var(--text-primary); background: rgba(255,255,255,0.05); }
+    .nav-links a.active { color: var(--text-primary); font-weight: 600; }
+    .nav-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .search-pill { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 6px 16px; cursor: pointer; transition: background 0.2s, border-color 0.2s; position: relative; }
+    .search-pill:hover { background: rgba(255,255,255,0.11); border-color: rgba(255,255,255,0.18); }
+    .search-pill.open { background: rgba(11,11,15,0.95); border-color: rgba(255,255,255,0.25); }
+    .search-pill-icon { font-size: 13px; color: var(--text-secondary); }
+    .search-pill-label { font-size: 13px; color: var(--text-secondary); }
+    .search-pill-input { background: none; border: none; outline: none; color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 13px; width: 0; transition: width 0.3s; padding: 0; }
+    .search-pill.open .search-pill-input { width: 180px; }
+    .search-pill.open .search-pill-label { display: none; }
+    .nav-bell { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 15px; cursor: pointer; transition: background 0.2s; }
+    .nav-bell:hover { background: rgba(255,255,255,0.1); }
+    .nav-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); border: 2px solid var(--accent-bright); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; cursor: pointer; }
+    .nav-username { font-size: 13px; font-weight: 500; color: var(--text-secondary); white-space: nowrap; }
+
+    /* SIDEBAR */
+    .sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: var(--sidebar-w); background: rgba(11,11,15,0.96); border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; padding: 12px 0; z-index: 200; gap: 4px; }
+    .sb-logo { width: 34px; height: 34px; border-radius: 8px; background: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; color: #000; margin-bottom: 12px; flex-shrink: 0; }
+    .sb-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; color: var(--text-muted); cursor: pointer; transition: all 0.15s; text-decoration: none; }
+    .sb-icon:hover { background: rgba(255,255,255,0.07); color: var(--text-primary); }
+    .sb-icon.active { background: rgba(124,92,191,0.2); color: var(--accent-bright); }
+    .sb-spacer { flex: 1; }
+    .sb-divider { width: 28px; height: 1px; background: var(--border); margin: 6px 0; }
+
+    /* MAIN */
+    .main { margin-left: var(--sidebar-w); height: 100vh; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+    .main::-webkit-scrollbar { width: 4px; }
+    .main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* HERO */
+    .hero { position: relative; height: 100vh; min-height: 560px; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 48px 32px; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; }
+    .hero-bg-img { width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: brightness(0.55) saturate(0.8); }
+    .hero-fade { position: absolute; inset: 0; background: linear-gradient(to right, rgba(11,11,15,0.92) 0%, rgba(11,11,15,0.5) 40%, rgba(11,11,15,0.05) 75%, transparent 100%), linear-gradient(to top, rgba(11,11,15,1) 0%, rgba(11,11,15,0.6) 25%, transparent 55%); }
+    .hero-content { position: relative; max-width: 480px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+    .hero-badge-logo { width: 22px; height: 22px; border-radius: 5px; background: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; color: #000; }
+    .hero-badge-text { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+    .hero-badge-text span { color: var(--gold); font-weight: 600; }
+    .hero-title { font-size: 64px; font-weight: 900; line-height: 0.95; letter-spacing: -3px; color: #fff; margin-bottom: 14px; text-transform: uppercase; }
+    .hero-tags { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+    .hero-tag { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
+    .hero-tag-pill { font-size: 10px; font-weight: 700; letter-spacing: 0.5px; border: 1px solid var(--text-muted); border-radius: 3px; padding: 2px 6px; color: var(--text-secondary); text-transform: uppercase; }
+    .hero-rank { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .hero-rank-icon { font-size: 15px; }
+    .hero-desc { font-size: 13px; line-height: 1.75; color: var(--text-secondary); margin-bottom: 22px; max-width: 380px; }
+    .hero-actions { display: flex; gap: 12px; align-items: center; }
+    .btn-play { display: flex; align-items: center; gap: 8px; background: var(--accent); color: #fff; border: none; border-radius: 24px; padding: 11px 24px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.1s; }
+    .btn-play:hover { background: var(--accent-bright); transform: scale(1.02); }
+    .btn-play-icon { width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 11px; }
+    .btn-info { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); color: var(--text-primary); border: 1px solid rgba(255,255,255,0.14); border-radius: 24px; padding: 11px 22px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+    .btn-info:hover { background: rgba(255,255,255,0.13); }
+
+    /* ROWS */
+    .rows-area { padding: 0 48px 60px; background: var(--bg); }
+    .row { margin-bottom: 40px; }
+    .row:first-child { padding-top: 32px; }
+    .row-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px; }
+    .row-title { font-size: 17px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.3px; }
+    .row-count { font-size: 12px; color: var(--text-muted); }
+    .row-scroll { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+    .row-scroll::-webkit-scrollbar { display: none; }
+
+    /* CARDS */
+    .card { flex: 0 0 220px; border-radius: 10px; overflow: hidden; position: relative; cursor: pointer; background: var(--surface); transition: transform 0.25s ease, box-shadow 0.25s; }
+    .card:hover { transform: scale(1.05); box-shadow: 0 16px 40px rgba(0,0,0,0.5); }
+    .card-img { height: 130px; position: relative; overflow: hidden; background: #111; }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.85) sepia(10%); transition: transform 0.3s; display: block; }
+    .card:hover .card-img img { transform: scale(1.07); }
+    .card-img-fallback { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 42px; }
+    .card-img-tint { position: absolute; inset: 0; background: linear-gradient(to top, rgba(11,11,15,0.85) 0%, transparent 60%); }
+    .card-badge { position: absolute; top: 8px; left: 8px; width: 20px; height: 20px; border-radius: 5px; background: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 900; color: #000; }
+    .card-bottom-title { position: absolute; bottom: 8px; left: 10px; right: 10px; font-size: 12px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-hover-overlay { position: absolute; inset: 0; opacity: 0; background: rgba(124,92,191,0.18); display: flex; align-items: center; justify-content: center; transition: opacity 0.2s; }
+    .card:hover .card-hover-overlay { opacity: 1; }
+    .card-play-circle { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; border: 2px solid rgba(255,255,255,0.3); }
+
+    /* GENRE STRIP */
+    .genre-strip { display: flex; align-items: center; gap: 8px; padding: 20px 48px 0; overflow-x: auto; scrollbar-width: none; }
+    .genre-strip::-webkit-scrollbar { display: none; }
+    .genre-pill { display: flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text-secondary); font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+    .genre-pill:hover { border-color: var(--accent); color: var(--text-primary); background: rgba(124,92,191,0.1); }
+    .genre-pill.active { border-color: var(--accent-bright); color: var(--accent-bright); background: rgba(124,92,191,0.18); }
+
+    /* DRAWER */
+    .drawer-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 400; }
+    .drawer-backdrop.open { display: block; }
+    .drawer { position: fixed; top: 0; left: var(--sidebar-w); bottom: 0; width: 560px; background: #141418; z-index: 500; display: flex; flex-direction: column; transform: translateX(-100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); border-right: 1px solid #1e1e28; overflow: hidden; }
+    .drawer.open { transform: translateX(0); }
+    .drawer-media { width: 100%; aspect-ratio: 16/9; background: #000; position: relative; flex-shrink: 0; }
+    .drawer-media iframe { width: 100%; height: 100%; border: none; display: block; }
+    .drawer-media-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: brightness(0.7) saturate(0.8); }
+    .drawer-media-gradient { position: absolute; inset: 0; background: linear-gradient(to top, #141418 0%, transparent 60%); }
+    .drawer-close { position: absolute; top: 14px; right: 14px; width: 34px; height: 34px; border-radius: 50%; background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.15); color: #ccc; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; transition: color 0.15s, background 0.15s; }
+    .drawer-close:hover { color: #fff; background: rgba(0,0,0,0.9); }
+    .drawer-body { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 20px 24px 40px; scrollbar-width: thin; scrollbar-color: #2a2a3a transparent; }
+    .drawer-body::-webkit-scrollbar { width: 3px; }
+    .drawer-body::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 2px; }
+    .drawer-title { font-size: 32px; font-weight: 900; letter-spacing: -1px; line-height: 1.0; color: #fff; margin-bottom: 10px; text-transform: uppercase; }
+    .drawer-meta-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; flex-wrap: wrap; }
+    .drawer-meta-row .m-val { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+    .drawer-meta-row .m-dot { font-size: 13px; color: var(--text-muted); }
+    .drawer-meta-row .m-pill { font-size: 9px; font-weight: 700; letter-spacing: 0.5px; border: 1.5px solid #555; border-radius: 3px; padding: 2px 6px; color: #888; text-transform: uppercase; }
+    .drawer-badge-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+    .drawer-pd-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.5px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; padding: 2px 8px; color: #888; text-transform: uppercase; }
+    .drawer-badge-note { font-size: 11px; color: var(--text-muted); }
+    .drawer-desc { font-size: 13px; line-height: 1.72; color: #bbb; margin-bottom: 14px; }
+    .drawer-credits { margin-bottom: 14px; }
+    .drawer-credits p { font-size: 12px; color: #555; line-height: 1.9; }
+    .drawer-credits p span { color: #888; }
+    .drawer-top10 { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .drawer-top10-badge { background: #e50914; color: #fff; font-size: 8px; font-weight: 900; padding: 3px 5px; border-radius: 3px; line-height: 1.4; text-align: center; text-transform: uppercase; min-width: 28px; }
+    .drawer-top10-text { font-size: 13px; font-weight: 700; color: #e0ddd8; }
+    .drawer-recommend { font-size: 12px; color: #888; margin-left: 4px; }
+    .drawer-thumbs { display: flex; gap: 14px; margin-bottom: 20px; }
+    .drawer-thumb-btn { background: none; border: none; font-size: 20px; cursor: pointer; opacity: 0.45; transition: opacity 0.2s, transform 0.15s; padding: 2px; }
+    .drawer-thumb-btn:hover { opacity: 1; transform: scale(1.15); }
+    .drawer-thumb-btn.active { opacity: 1; }
+    .drawer-play-btn { width: 100%; display: flex; align-items: center; gap: 12px; background: #fff; color: #000; border: none; border-radius: 6px; padding: 13px 20px; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+    .drawer-play-btn:hover { background: #e0e0e0; }
+    .drawer-play-btn .dp-icon { width: 26px; height: 26px; border-radius: 50%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+    .drawer-episodes-btn { width: 100%; display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.07); color: #ddd; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 13px 20px; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .drawer-episodes-btn:hover { background: rgba(255,255,255,0.12); }
+    .drawer-menu-btn { width: 100%; display: flex; align-items: center; gap: 14px; background: transparent; color: #888; border: none; border-radius: 6px; padding: 12px 4px; margin-bottom: 2px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: color 0.2s, background 0.2s; text-decoration: none; text-align: left; border-bottom: 1px solid #1e1e28; }
+    .drawer-menu-btn:last-child { border-bottom: none; }
+    .drawer-menu-btn:hover { color: #fff; background: rgba(255,255,255,0.04); }
+    .drawer-menu-icon { font-size: 17px; flex-shrink: 0; width: 24px; text-align: center; }
+    .drawer-source { margin-top: 18px; padding-top: 14px; border-top: 1px solid #1e1e28; font-size: 10px; color: #3a3a4a; display: flex; align-items: center; gap: 6px; }
+    .drawer-source-dot { width: 5px; height: 5px; border-radius: 50%; background: #4a8fc0; flex-shrink: 0; }
+
+    /* SEARCH RESULTS */
+    .search-results { padding: 80px 48px 60px; display: none; }
+    .search-results.visible { display: block; }
+    .search-results-title { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+    .search-results-title span { color: var(--text-primary); font-weight: 600; }
+    .search-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-logo">R</div>
+  <a class="sb-icon" href="ReelVault.html" title="Home">🏠</a>
+  <a class="sb-icon active" href="#" title="Series">📺</a>
+  <a class="sb-icon" href="#" title="Profile">👤</a>
+  <a class="sb-icon" href="#" title="Calendar">📅</a>
+  <a class="sb-icon" href="#" title="New">⚡</a>
+  <div class="sb-spacer"></div>
+  <div class="sb-divider"></div>
+  <a class="sb-icon" href="#" title="Notifications">🔔</a>
+  <a class="sb-icon" href="#" title="Settings">⚙️</a>
+  <div class="nav-avatar" style="width:32px;height:32px;font-size:12px;margin-top:4px;">R</div>
+</div>
+
+<!-- TOP NAV -->
+<div class="topnav">
+  <div class="nav-logo">Reel Vault</div>
+  <ul class="nav-links">
+    <li><a href="ReelVault.html">Home</a></li>
+    <li><a href="#" class="active">Series</a></li>
+    <li><a href="ReelVault.html">Movies</a></li>
+    <li><a href="#">Originals</a></li>
+    <li><a href="#">Recently Added</a></li>
+    <li><a href="#">My List</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="search-pill" id="searchPill" onclick="toggleSearch(event)">
+      <span class="search-pill-icon">⌕</span>
+      <span class="search-pill-label">Search</span>
+      <input class="search-pill-input" id="searchInput" type="text" placeholder="Titles, genres…" oninput="handleSearch(this.value)" onclick="event.stopPropagation()" />
+    </div>
+    <div class="nav-bell">🔔</div>
+    <div class="nav-avatar">R</div>
+    <span class="nav-username">Reel Fan</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="mainScroll">
+
+  <!-- HERO -->
+  <section class="hero" id="heroSection">
+    <div class="hero-bg">
+      <img class="hero-bg-img" id="heroBgImg" src="" alt="" />
+      <div class="hero-fade"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <div class="hero-badge-logo">R</div>
+        <span class="hero-badge-text">Reel Vault <span>classic series</span></span>
+      </div>
+      <h1 class="hero-title" id="heroTitle">The Lone Ranger</h1>
+      <div class="hero-tags">
+        <span class="hero-tag" id="heroYear">1938</span>
+        <span class="hero-tag">·</span>
+        <span class="hero-tag" id="heroDuration">15 Episodes</span>
+        <span class="hero-tag-pill" id="heroGenreTag">Western</span>
+      </div>
+      <div class="hero-rank">
+        <span class="hero-rank-icon">📺</span>
+        <span id="heroRankText">#1 in Classic Series Today</span>
+      </div>
+      <p class="hero-desc" id="heroDesc">The masked rider of the plains and his loyal companion Tonto fight for justice across the old West in this beloved serial that defined the cowboy hero for generations.</p>
+      <div class="hero-actions">
+        <button class="btn-play" onclick="openModal(0)"><div class="btn-play-icon">▶</div> Play</button>
+        <button class="btn-info" onclick="openModal(0)">ⓘ More Info</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GENRE STRIP -->
+  <div class="genre-strip" id="genreStrip">
+    <button class="genre-pill active" onclick="filterGenre(null,this)">All Series</button>
+    <button class="genre-pill" onclick="filterGenre('Western',this)">Western</button>
+    <button class="genre-pill" onclick="filterGenre('Mystery',this)">Mystery</button>
+    <button class="genre-pill" onclick="filterGenre('Comedy',this)">Comedy</button>
+    <button class="genre-pill" onclick="filterGenre('Drama',this)">Drama</button>
+    <button class="genre-pill" onclick="filterGenre('Adventure',this)">Adventure</button>
+    <button class="genre-pill" onclick="filterGenre('Crime',this)">Crime</button>
+    <button class="genre-pill" onclick="filterGenre('Horror',this)">Horror</button>
+  </div>
+
+  <!-- ROWS -->
+  <div class="rows-area" id="mainContent">
+    <div class="row" id="row-trending">
+      <div class="row-header"><span class="row-title">Trending Series</span><span class="row-count" id="count-trending"></span></div>
+      <div class="row-scroll" id="scroll-trending"></div>
+    </div>
+    <div class="row" id="row-western">
+      <div class="row-header"><span class="row-title">Westerns & Adventure</span><span class="row-count" id="count-western"></span></div>
+      <div class="row-scroll" id="scroll-western"></div>
+    </div>
+    <div class="row" id="row-mystery">
+      <div class="row-header"><span class="row-title">Mystery & Crime</span><span class="row-count" id="count-mystery"></span></div>
+      <div class="row-scroll" id="scroll-mystery"></div>
+    </div>
+    <div class="row" id="row-comedy">
+      <div class="row-header"><span class="row-title">Comedy Serials</span><span class="row-count" id="count-comedy"></span></div>
+      <div class="row-scroll" id="scroll-comedy"></div>
+    </div>
+    <div class="row" id="row-drama">
+      <div class="row-header"><span class="row-title">Drama & Romance</span><span class="row-count" id="count-drama"></span></div>
+      <div class="row-scroll" id="scroll-drama"></div>
+    </div>
+  </div>
+
+  <!-- SEARCH RESULTS -->
+  <div class="search-results" id="searchResults">
+    <p class="search-results-title" id="searchResultsTitle"></p>
+    <div class="search-grid" id="searchGrid"></div>
+  </div>
+
+</div>
+
+<!-- BACKDROP -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeModal()"></div>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-media" id="drawerMedia">
+    <img class="drawer-media-poster" id="drawerPoster" src="" alt="" />
+    <div class="drawer-media-gradient"></div>
+    <iframe id="drawerIframe" src="" allowfullscreen style="display:none;position:absolute;inset:0;width:100%;height:100%;border:none;z-index:2;"></iframe>
+    <button class="drawer-close" onclick="closeModal()">✕</button>
+  </div>
+  <div class="drawer-body">
+    <h2 class="drawer-title" id="drawerTitle"></h2>
+    <div class="drawer-meta-row">
+      <span class="m-val" id="drawerYear"></span>
+      <span class="m-dot">·</span>
+      <span class="m-val" id="drawerSeasons"></span>
+      <span class="m-dot">·</span>
+      <span class="m-val" id="drawerGenre"></span>
+      <span class="m-pill">PD</span>
+    </div>
+    <div class="drawer-badge-row">
+      <span class="drawer-pd-badge">Public Domain</span>
+      <span class="drawer-badge-note">Free · No sign-up required</span>
+    </div>
+    <p class="drawer-desc" id="drawerDesc"></p>
+    <div class="drawer-credits">
+      <p id="drawerCastLine"></p>
+      <p>Network: <span id="drawerNetwork"></span></p>
+    </div>
+    <div class="drawer-top10">
+      <div class="drawer-top10-badge">TOP<br>10</div>
+      <span class="drawer-top10-text" id="drawerRank"></span>
+      <span class="drawer-recommend">👍 We think you'll love this!</span>
+    </div>
+    <div class="drawer-thumbs">
+      <button class="drawer-thumb-btn" onclick="drawerThumb(this)">👎</button>
+      <button class="drawer-thumb-btn" onclick="drawerThumb(this)">👍</button>
+      <button class="drawer-thumb-btn" onclick="drawerThumb(this)">👍👍</button>
+    </div>
+    <!-- Play always first -->
+    <button class="drawer-play-btn" id="drawerPlayBtn">
+      <div class="dp-icon">▶</div> Play
+    </button>
+    <!-- Episodes always shown for series -->
+    <button class="drawer-episodes-btn" id="drawerEpisodesBtn">
+      ▦ &nbsp;Episodes
+    </button>
+    <button class="drawer-menu-btn"><span class="drawer-menu-icon">▦</span> More Like This</button>
+    <a class="drawer-menu-btn" id="drawerArchiveLink" href="#" target="_blank" rel="noopener">
+      <span class="drawer-menu-icon">↗</span> Open on Archive.org
+    </a>
+    <button class="drawer-menu-btn"><span class="drawer-menu-icon">+</span> Add to My List</button>
+    <div class="drawer-source">
+      <span class="drawer-source-dot"></span>
+      Streaming free from Internet Archive · Public domain
+    </div>
+  </div>
+</div>
+
+<script>
+  const SHOWS = [
+    {
+      id:0, title:'The Lone Ranger', year:1938, network:'Republic Pictures', genre:'Western',
+      seasons:'1 Season · 15 Episodes', tags:['Western','Adventure'],
+      emoji:'🤠', rank:'#1 in Classic Series Today',
+      cast:['Lee Powell','Chief Thundercloud','Herman Brix'],
+      poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Lone_Ranger_1938_poster.jpg/800px-Lone_Ranger_1938_poster.jpg',
+      embedUrl:'https://archive.org/embed/the-lone-ranger-1938',
+      archiveUrl:'https://archive.org/details/the-lone-ranger-1938',
+      desc:'The masked rider of the plains and his loyal companion Tonto fight for justice across the old West. This beloved 15-chapter serial introduced one of the most iconic heroes in American pop culture.'
+    },
+    {
+      id:1, title:'Flash Gordon', year:1936, network:'Universal Pictures', genre:'Adventure',
+      seasons:'1 Season · 13 Episodes', tags:['Adventure','Sci-Fi'],
+      emoji:'🚀', rank:'#1 in Sci-Fi Serials',
+      cast:['Buster Crabbe','Jean Rogers','Charles Middleton'],
+      poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Flash_Gordon_1936_poster.jpg/800px-Flash_Gordon_1936_poster.jpg',
+      embedUrl:'https://archive.org/embed/FlashGordon1936',
+      archiveUrl:'https://archive.org/details/FlashGordon1936',
+      desc:'Polo player Flash Gordon rockets to the planet Mongo to stop the evil Emperor Ming from destroying Earth. This landmark sci-fi serial set the template for every space opera that followed.'
+    },
+    {
+      id:2, title:'Buck Rogers', year:1939, network:'Universal Pictures', genre:'Adventure',
+      seasons:'1 Season · 12 Episodes', tags:['Adventure','Sci-Fi'],
+      emoji:'🛸', rank:'#2 in Sci-Fi Serials',
+      cast:['Buster Crabbe','Constance Moore','Jackie Moran'],
+      poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Buck_Rogers_1939_poster.jpg/800px-Buck_Rogers_1939_poster.jpg',
+      embedUrl:'https://archive.org/embed/BuckRogers1939',
+      archiveUrl:'https://archive.org/details/BuckRogers1939',
+      desc:'Anthony "Buck" Rogers awakens from a 500-year sleep to find Earth dominated by a criminal empire. A rip-roaring space adventure serial that captivated Depression-era audiences.'
+    },
+    {
+      id:3, title:'The Perils of Pauline', year:1914, network:'Pathé Exchange', genre:'Drama',
+      seasons:'1 Season · 20 Episodes', tags:['Drama','Adventure'],
+      emoji:'🎬', rank:'#1 in Early Serials',
+      cast:['Pearl White','Crane Wilbur','Paul Panzer'],
+      poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/The_Perils_of_Pauline_%281914%29_poster.jpg/800px-The_Perils_of_Pauline_%281914%29_poster.jpg',
+      embedUrl:'https://archive.org/embed/ThePerilsofPauline1914',
+      archiveUrl:'https://archive.org/details/ThePerilsofPauline1914',
+      desc:'The original cliffhanger serial. Heiress Pauline faces mortal danger week after week as her guardian plots to steal her fortune. Pearl White became one of early cinema\'s first major stars here.'
+    },
+    {
+      id:4, title:'Zorro\'s Fighting Legion', year:1939, network:'Republic Pictures', genre:'Western',
+      seasons:'1 Season · 12 Episodes', tags:['Western','Adventure'],
+      emoji:'⚔️', rank:'#2 in Western Serials',
+      cast:['Reed Hadley','Sheila Darcy','William Corson'],
+      poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Zorros_fighting_legion_poster.jpg/800px-Zorros_fighting_legion_poster.jpg',
+      embedUrl:'https://archive.org/embed/ZorrosFightingLegion',
+      archiveUrl:'https://archive.org/details/ZorrosFightingLegion',
+      desc:'Don Diego de la Vega dons the mask of Zorro to battle a mysterious villain threatening the gold shipments of Mexico. Action-packed chapter play with thrilling stunts and sword fights.'
+    },
+    {
+      id:5, title:'Dick Tracy', year:1937, network:'Republic Pictures', genre:'Crime',
+      seasons:'1 Season · 15 Episodes', tags:['Crime','Mystery'],
+      emoji:'🕵️', rank:'#1 in Crime Serials',
+      cast:['Ralph Byrd','Kay Hughes','Smiley Burnette'],
+      poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Dick_Tracy_1937_poster.jpg/800px-Dick_Tracy_1937_poster.jpg',
+      embedUrl:'https://archive.org/embed/DickTracy1937',
+      archiveUrl:'https://archive.org/details/DickTracy1937',
+      desc:'Square-jawed detective Dick Tracy battles the criminal mastermind "The Spider" across 15 thrilling chapters. Chester Gould\'s iconic comic strip hero makes his action-packed serial debut.'
+    },
+    {
+      id:6, title:'The Clutching Hand', year:1936, network:'Stage & Screen', genre:'Mystery',
+      seasons:'1 Season · 15 Episodes', tags:['Mystery','Crime'],
+      emoji:'🦷', rank:'#2 in Mystery Serials',
+      cast:['Jack Mulhall','Marion Shilling','Rex Lease'],
+      poster:'',
+      embedUrl:'https://archive.org/embed/TheClutchingHand',
+      archiveUrl:'https://archive.org/details/TheClutchingHand',
+      desc:'Scientific genius Craig Kennedy investigates the theft of a formula for synthetic gold and the criminal mastermind known only as "The Clutching Hand." A gripping mystery serial full of traps and twists.'
+    },
+    {
+      id:7, title:'Buster Keaton Shorts', year:1920, network:'Metro Pictures', genre:'Comedy',
+      seasons:'2 Seasons · 19 Short Films', tags:['Comedy'],
+      emoji:'🎩', rank:'#1 in Comedy Classics',
+      cast:['Buster Keaton','Virginia Fox','Joe Roberts'],
+      poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Buster_Keaton_Neighbors_1920.jpg/800px-Buster_Keaton_Neighbors_1920.jpg',
+      embedUrl:'https://archive.org/embed/buster-keaton-shorts',
+      archiveUrl:'https://archive.org/details/buster-keaton-shorts',
+      desc:'The complete collection of Buster Keaton\'s short silent comedies — featuring One Week, The Scarecrow, Neighbors, The Haunted House, and more. Nineteen masterpieces of physical comedy and visual invention.'
+    },
+    {
+      id:8, title:'Charlie Chaplin Shorts', year:1914, network:'Keystone Studios', genre:'Comedy',
+      seasons:'3 Seasons · 35 Short Films', tags:['Comedy'],
+      emoji:'🥸', rank:'Most Watched Comedy Series',
+      cast:['Charlie Chaplin','Mabel Normand','Fatty Arbuckle'],
+      poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Chaplin_The_Kid_poster.jpg/800px-Chaplin_The_Kid_poster.jpg',
+      embedUrl:'https://archive.org/embed/CharlieChaplinEarlyShorts',
+      archiveUrl:'https://archive.org/details/CharlieChaplinEarlyShorts',
+      desc:'The early Keystone and Mutual shorts that made Charlie Chaplin the most famous man on Earth. From slapstick chaos to heartfelt comedy — 35 films spanning the birth of the Little Tramp character.'
+    },
+    {
+      id:9, title:'The Perils of Nyoka', year:1942, network:'Republic Pictures', genre:'Adventure',
+      seasons:'1 Season · 15 Episodes', tags:['Adventure','Drama'],
+      emoji:'🌿', rank:'#1 in Adventure Serials',
+      cast:['Kay Aldridge','Clayton Moore','William Benedict'],
+      poster:'',
+      embedUrl:'https://archive.org/embed/ThePerilsOfNyoka',
+      archiveUrl:'https://archive.org/details/ThePerilsOfNyoka',
+      desc:'Jungle adventurer Nyoka searches for the lost tablets of Hippocrates while battling the villainous Vultura and her Arab henchmen. A fast-paced serial full of exotic dangers and hair-raising escapes.'
+    },
+    {
+      id:10, title:'Sherlock Holmes', year:1954, network:'Guild Films', genre:'Mystery',
+      seasons:'1 Season · 39 Episodes', tags:['Mystery','Crime'],
+      emoji:'🔍', rank:'#1 in Classic Mystery TV',
+      cast:['Ronald Howard','H. Marion Crawford','Archie Duncan'],
+      poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Sherlock_Holmes_1954_TV.jpg/800px-Sherlock_Holmes_1954_TV.jpg',
+      embedUrl:'https://archive.org/embed/SherlockHolmes1954',
+      archiveUrl:'https://archive.org/details/SherlockHolmes1954',
+      desc:'The classic 1954 TV series starring Ronald Howard as Sherlock Holmes and H. Marion Crawford as Dr. Watson. Thirty-nine mysteries set in Victorian London, adapted from Arthur Conan Doyle\'s original stories.'
+    },
+    {
+      id:11, title:'Sky King', year:1951, network:'NBC', genre:'Adventure',
+      seasons:'3 Seasons · 72 Episodes', tags:['Adventure','Drama'],
+      emoji:'✈️', rank:'#2 in Classic TV Adventure',
+      cast:['Kirby Grant','Gloria Winters','Ron Hagerthy'],
+      poster:'',
+      embedUrl:'https://archive.org/embed/sky-king-tv-series',
+      archiveUrl:'https://archive.org/details/sky-king-tv-series',
+      desc:'Arizona rancher Schuyler "Sky" King uses his airplane "The Songbird" to fight crime and help those in trouble across the Southwest. A beloved family adventure series from early television.'
+    },
+    {
+      id:12, title:'The Cisco Kid', year:1950, network:'ZIV Television', genre:'Western',
+      seasons:'6 Seasons · 156 Episodes', tags:['Western','Adventure'],
+      emoji:'🌵', rank:'#3 in Classic Westerns',
+      cast:['Duncan Renaldo','Leo Carrillo','Jolene Brand'],
+      poster:'',
+      embedUrl:'https://archive.org/embed/TheCiscoKid',
+      archiveUrl:'https://archive.org/details/TheCiscoKid',
+      desc:'The Cisco Kid and his sidekick Pancho ride across the Old West helping the innocent and bringing outlaws to justice. One of the first TV series filmed in color, and a charming classic of the genre.'
+    },
+    {
+      id:13, title:'Dragnet (Radio)', year:1949, network:'NBC Radio', genre:'Crime',
+      seasons:'4 Seasons · 48 Episodes', tags:['Crime','Drama'],
+      emoji:'📻', rank:'#1 in Classic Radio Drama',
+      cast:['Jack Webb','Barton Yarborough','Ben Alexander'],
+      poster:'',
+      embedUrl:'https://archive.org/embed/dragnet_otr',
+      archiveUrl:'https://archive.org/details/dragnet_otr',
+      desc:'Just the facts, ma\'am. Sergeant Joe Friday investigates real crimes in Los Angeles in this legendary radio drama that pioneered the procedural format. A gripping, no-nonsense classic of American broadcasting.'
+    },
+  ];
+
+  const ROWS = [
+    { id:'trending', filter: s => [0,1,5,8,10,7].includes(s.id) },
+    { id:'western',  filter: s => s.tags.includes('Western') || s.tags.includes('Adventure') },
+    { id:'mystery',  filter: s => s.tags.includes('Mystery') || s.tags.includes('Crime') },
+    { id:'comedy',   filter: s => s.tags.includes('Comedy') },
+    { id:'drama',    filter: s => s.tags.includes('Drama') },
+  ];
+
+  let currentFilter = null;
+
+  function makeCard(show) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.onclick = () => openModal(show.id);
+    card.innerHTML = `
+      <div class="card-img">
+        ${show.poster ? `<img src="${show.poster}" alt="${show.title}" loading="lazy">` : ''}
+        <div class="card-img-fallback" style="${show.poster ? 'display:none' : ''}">${show.emoji}</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">${show.title}</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div>`;
+    if (show.poster) {
+      const img = card.querySelector('img');
+      img.onerror = function() {
+        this.style.display = 'none';
+        card.querySelector('.card-img-fallback').style.display = 'flex';
+      };
+    }
+    return card;
+  }
+
+  function renderRows() {
+    const filtered = currentFilter
+      ? SHOWS.filter(s => s.tags.includes(currentFilter) || s.genre === currentFilter)
+      : SHOWS;
+    ROWS.forEach(row => {
+      const shows  = filtered.filter(row.filter);
+      const scroll = document.getElementById('scroll-' + row.id);
+      const count  = document.getElementById('count-'  + row.id);
+      const rowEl  = document.getElementById('row-'    + row.id);
+      if (!scroll) return;
+      scroll.innerHTML = '';
+      rowEl.style.display = shows.length ? '' : 'none';
+      if (!shows.length) return;
+      count.textContent = shows.length + ' show' + (shows.length !== 1 ? 's' : '');
+      shows.forEach(s => scroll.appendChild(makeCard(s)));
+    });
+  }
+
+  function filterGenre(genre, btn) {
+    currentFilter = genre;
+    document.querySelectorAll('.genre-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    renderRows();
+    document.getElementById('mainContent').style.display = '';
+    document.getElementById('searchResults').classList.remove('visible');
+    closeSearch();
+  }
+
+  let searchOpen = false;
+  function toggleSearch(e) {
+    const pill = document.getElementById('searchPill');
+    const input = document.getElementById('searchInput');
+    if (!searchOpen) {
+      searchOpen = true; pill.classList.add('open');
+      setTimeout(() => input.focus(), 50);
+    } else if (!input.value) closeSearch();
+  }
+  function closeSearch() {
+    searchOpen = false;
+    document.getElementById('searchPill').classList.remove('open');
+    document.getElementById('searchInput').value = '';
+    handleSearch('');
+  }
+  document.addEventListener('click', function(e) {
+    const pill = document.getElementById('searchPill');
+    if (searchOpen && !pill.contains(e.target) && !document.getElementById('searchInput').value) closeSearch();
+  });
+
+  function handleSearch(q) {
+    const main    = document.getElementById('mainContent');
+    const hero    = document.getElementById('heroSection');
+    const strip   = document.getElementById('genreStrip');
+    const results = document.getElementById('searchResults');
+    const grid    = document.getElementById('searchGrid');
+    const title   = document.getElementById('searchResultsTitle');
+    if (!q.trim()) {
+      main.style.display = ''; hero.style.display = ''; strip.style.display = '';
+      results.classList.remove('visible'); return;
+    }
+    const found = SHOWS.filter(s =>
+      s.title.toLowerCase().includes(q.toLowerCase()) ||
+      s.genre.toLowerCase().includes(q.toLowerCase()) ||
+      s.cast.some(c => c.toLowerCase().includes(q.toLowerCase())) ||
+      s.tags.some(t => t.toLowerCase().includes(q.toLowerCase()))
+    );
+    main.style.display = 'none'; hero.style.display = 'none'; strip.style.display = 'none';
+    results.classList.add('visible');
+    grid.innerHTML = '';
+    title.innerHTML = found.length
+      ? `${found.length} result${found.length !== 1 ? 's' : ''} for <span>"${q}"</span>`
+      : `No results for <span>"${q}"</span>`;
+    found.forEach(s => grid.appendChild(makeCard(s)));
+  }
+
+  function drawerThumb(btn) {
+    document.querySelectorAll('.drawer-thumb-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function openModal(id) {
+    const s = SHOWS[id];
+    const poster = document.getElementById('drawerPoster');
+    const iframe = document.getElementById('drawerIframe');
+    poster.src = s.poster || '';
+    poster.style.display = s.poster ? '' : 'none';
+    iframe.src = ''; iframe.style.display = 'none';
+
+    document.getElementById('drawerTitle').textContent   = s.title;
+    document.getElementById('drawerYear').textContent    = s.year;
+    document.getElementById('drawerSeasons').textContent = s.seasons;
+    document.getElementById('drawerGenre').textContent   = s.genre;
+    document.getElementById('drawerDesc').textContent    = s.desc;
+    document.getElementById('drawerRank').textContent    = s.rank;
+    document.getElementById('drawerNetwork').textContent = s.network;
+    document.getElementById('drawerArchiveLink').href    = s.archiveUrl;
+
+    const castLine = document.getElementById('drawerCastLine');
+    if (s.cast && s.cast.length) {
+      castLine.style.display = '';
+      castLine.innerHTML = `Cast: <span>${s.cast.join(', ')}</span>`;
+    } else {
+      castLine.style.display = 'none';
+    }
+
+    document.getElementById('drawerPlayBtn').onclick = () => {
+      iframe.src = s.embedUrl;
+      iframe.style.display = 'block';
+      poster.style.display = 'none';
+      const grad = document.getElementById('drawerMedia').querySelector('.drawer-media-gradient');
+      if (grad) grad.style.display = 'none';
+    };
+
+    // Episodes always visible for shows — no need to toggle
+    document.getElementById('drawerEpisodesBtn').style.display = '';
+
+    document.querySelectorAll('.drawer-thumb-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('drawerBackdrop').classList.add('open');
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('drawer').querySelector('.drawer-body').scrollTop = 0;
+  }
+
+  function closeModal() {
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('drawerBackdrop').classList.remove('open');
+    setTimeout(() => {
+      document.getElementById('drawerIframe').src = '';
+      document.getElementById('drawerIframe').style.display = 'none';
+      document.getElementById('drawerPoster').style.display = '';
+      const grad = document.getElementById('drawer').querySelector('.drawer-media-gradient');
+      if (grad) grad.style.display = '';
+    }, 350);
+  }
+
+  // Init
+  document.getElementById('heroBgImg').src = SHOWS[0].poster || '';
+  renderRows();
+</script>
+</body>
+</html>
