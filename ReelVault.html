@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reel Vault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0b0b0f;
+      --surface: #16161e;
+      --surface2: #1e1e2a;
+      --border: #2a2a3a;
+      --text-primary: #f0eee8;
+      --text-secondary: #9994a8;
+      --text-muted: #4a4860;
+      --gold: #c9a84c;
+      --accent: #7c5cbf;
+      --accent-bright: #9b7de0;
+      --sidebar-w: 60px;
+    }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP NAV ── */
+    .topnav {
+      position: fixed; top: 0; left: var(--sidebar-w); right: 0;
+      z-index: 100;
+      height: 56px;
+      display: flex; align-items: center;
+      padding: 0 32px;
+      gap: 0;
+      background: linear-gradient(to bottom, rgba(11,11,15,0.95) 60%, transparent);
+    }
+
+    .nav-logo {
+      font-size: 18px; font-weight: 900;
+      letter-spacing: 3px; color: var(--gold);
+      text-transform: uppercase; white-space: nowrap;
+      margin-right: 32px;
+    }
+
+    .nav-links {
+      display: flex; gap: 2px; list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none; font-size: 13px; font-weight: 500;
+      padding: 6px 12px; border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover { color: var(--text-primary); background: rgba(255,255,255,0.05); }
+    .nav-links a.active { color: var(--text-primary); font-weight: 600; }
+
+    .nav-right {
+      margin-left: auto; display: flex; align-items: center; gap: 10px;
+    }
+
+    /* Pill search like reference */
+    .search-pill {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px; padding: 6px 16px;
+      cursor: pointer; transition: background 0.2s, border-color 0.2s;
+      position: relative;
+    }
+    .search-pill:hover { background: rgba(255,255,255,0.11); border-color: rgba(255,255,255,0.18); }
+    .search-pill.open { background: rgba(11,11,15,0.95); border-color: rgba(255,255,255,0.25); }
+    .search-pill-icon { font-size: 13px; color: var(--text-secondary); }
+    .search-pill-label { font-size: 13px; color: var(--text-secondary); }
+    .search-pill-input {
+      background: none; border: none; outline: none;
+      color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 13px;
+      width: 0; transition: width 0.3s; padding: 0;
+    }
+    .search-pill.open .search-pill-input { width: 180px; }
+    .search-pill.open .search-pill-label { display: none; }
+
+    .nav-bell {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; cursor: pointer; transition: background 0.2s;
+    }
+    .nav-bell:hover { background: rgba(255,255,255,0.1); }
+
+    .nav-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--accent-bright);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: #fff; cursor: pointer;
+    }
+    .nav-username {
+      font-size: 13px; font-weight: 500; color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    /* ── LEFT SIDEBAR ── */
+    .sidebar {
+      position: fixed; left: 0; top: 0; bottom: 0;
+      width: var(--sidebar-w);
+      background: rgba(11,11,15,0.96);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; align-items: center;
+      padding: 12px 0; z-index: 200; gap: 4px;
+    }
+    .sb-logo {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 900; color: #000;
+      margin-bottom: 12px; flex-shrink: 0;
+    }
+    .sb-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px; color: var(--text-muted);
+      cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .sb-icon:hover { background: rgba(255,255,255,0.07); color: var(--text-primary); }
+    .sb-icon.active { background: rgba(124,92,191,0.2); color: var(--accent-bright); }
+    .sb-spacer { flex: 1; }
+    .sb-divider { width: 28px; height: 1px; background: var(--border); margin: 6px 0; }
+
+    /* ── MAIN SCROLL AREA ── */
+    .main {
+      margin-left: var(--sidebar-w);
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .main::-webkit-scrollbar { width: 4px; }
+    .main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh; min-height: 560px;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 48px 32px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+    }
+    .hero-bg-img {
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: center top;
+      filter: brightness(0.55) saturate(0.8);
+    }
+    .hero-fade {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to right, rgba(11,11,15,0.92) 0%, rgba(11,11,15,0.5) 40%, rgba(11,11,15,0.05) 75%, transparent 100%),
+        linear-gradient(to top, rgba(11,11,15,1) 0%, rgba(11,11,15,0.6) 25%, transparent 55%);
+    }
+    .hero-content { position: relative; max-width: 480px; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-bottom: 10px;
+    }
+    .hero-badge-logo {
+      width: 22px; height: 22px; border-radius: 5px;
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 900; color: #000;
+    }
+    .hero-badge-text { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+    .hero-badge-text span { color: var(--gold); font-weight: 600; }
+
+    .hero-title {
+      font-size: 64px; font-weight: 900;
+      line-height: 0.95; letter-spacing: -3px;
+      color: #fff; margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    .hero-tags {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px; flex-wrap: wrap;
+    }
+    .hero-tag {
+      font-size: 12px; color: var(--text-secondary); font-weight: 500;
+    }
+    .hero-tag-pill {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+      border: 1px solid var(--text-muted); border-radius: 3px;
+      padding: 2px 6px; color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    .hero-rank {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 14px;
+      font-size: 13px; font-weight: 600; color: var(--text-primary);
+    }
+    .hero-rank-icon { font-size: 15px; }
+
+    .hero-desc {
+      font-size: 13px; line-height: 1.75;
+      color: var(--text-secondary); margin-bottom: 22px; max-width: 380px;
+    }
+
+    .hero-actions { display: flex; gap: 12px; align-items: center; }
+    .btn-play {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 24px;
+      padding: 11px 24px;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: background 0.2s, transform 0.1s;
+    }
+    .btn-play:hover { background: var(--accent-bright); transform: scale(1.02); }
+    .btn-play-icon {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+    }
+    .btn-info {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.08);
+      color: var(--text-primary);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 24px; padding: 11px 22px;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .btn-info:hover { background: rgba(255,255,255,0.13); }
+
+    /* ── CONTENT ROWS ── */
+    .rows-area { padding: 0 48px 60px; background: var(--bg); }
+
+    .row { margin-bottom: 40px; }
+    .row:first-child { padding-top: 32px; }
+    .row-header {
+      display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px;
+    }
+    .row-title { font-size: 17px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.3px; }
+    .row-count { font-size: 12px; color: var(--text-muted); }
+
+    .row-scroll {
+      display: flex; gap: 10px;
+      overflow-x: auto; scrollbar-width: none; padding-bottom: 4px;
+    }
+    .row-scroll::-webkit-scrollbar { display: none; }
+
+    /* Wide landscape cards like the reference */
+    .card {
+      flex: 0 0 220px; border-radius: 10px;
+      overflow: hidden; position: relative; cursor: pointer;
+      background: var(--surface);
+      transition: transform 0.25s ease, box-shadow 0.25s;
+    }
+    .card:hover { transform: scale(1.05); box-shadow: 0 16px 40px rgba(0,0,0,0.5); }
+    .card-img {
+      height: 130px; position: relative; overflow: hidden; background: #111;
+    }
+    .card-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.85) sepia(10%);
+      transition: transform 0.3s; display: block;
+    }
+    .card:hover .card-img img { transform: scale(1.07); }
+    .card-img-fallback {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 42px;
+    }
+    .card-img-tint {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(11,11,15,0.85) 0%, transparent 60%);
+    }
+    .card-badge {
+      position: absolute; top: 8px; left: 8px;
+      width: 20px; height: 20px; border-radius: 5px;
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 900; color: #000;
+    }
+    .card-bottom-title {
+      position: absolute; bottom: 8px; left: 10px; right: 10px;
+      font-size: 12px; font-weight: 600; color: #fff;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .card-hover-overlay {
+      position: absolute; inset: 0; opacity: 0;
+      background: rgba(124,92,191,0.18);
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.2s;
+    }
+    .card:hover .card-hover-overlay { opacity: 1; }
+    .card-play-circle {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    /* ── GENRE STRIP ── */
+    .genre-strip {
+      display: flex; align-items: center; gap: 8px;
+      padding: 20px 48px 0;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .genre-strip::-webkit-scrollbar { display: none; }
+    .genre-pill {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 20px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--text-secondary);
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500;
+      cursor: pointer; white-space: nowrap; transition: all 0.2s;
+    }
+    .genre-pill:hover { border-color: var(--accent); color: var(--text-primary); background: rgba(124,92,191,0.1); }
+    .genre-pill.active { border-color: var(--accent-bright); color: var(--accent-bright); background: rgba(124,92,191,0.18); }
+
+    /* ── DETAIL DRAWER (Netflix right-side panel) ── */
+    .drawer-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 400;
+      transition: opacity 0.3s;
+    }
+    .drawer-backdrop.open { display: block; }
+
+    .drawer {
+      position: fixed;
+      top: 0; left: var(--sidebar-w); bottom: 0;
+      width: 560px;
+      background: #141418;
+      z-index: 500;
+      display: flex; flex-direction: column;
+      transform: translateX(-100%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      border-right: 1px solid #1e1e28;
+      overflow: hidden;
+    }
+    .drawer.open { transform: translateX(0); }
+
+    /* Poster / video at the very top, full width, no gap */
+    .drawer-media {
+      width: 100%; aspect-ratio: 16/9;
+      background: #000; position: relative; flex-shrink: 0;
+    }
+    .drawer-media iframe { width: 100%; height: 100%; border: none; display: block; }
+    .drawer-media-poster {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      filter: brightness(0.7) saturate(0.8);
+    }
+    .drawer-media-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, #141418 0%, transparent 60%);
+    }
+
+    /* Close button top-right of drawer */
+    .drawer-close {
+      position: absolute; top: 14px; right: 14px;
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.15);
+      color: #ccc; font-size: 14px; line-height: 1;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      z-index: 10; transition: color 0.15s, background 0.15s;
+    }
+    .drawer-close:hover { color: #fff; background: rgba(0,0,0,0.9); }
+
+    /* Scrollable body */
+    .drawer-body {
+      flex: 1; overflow-y: auto; overflow-x: hidden;
+      padding: 20px 24px 40px;
+      scrollbar-width: thin; scrollbar-color: #2a2a3a transparent;
+    }
+    .drawer-body::-webkit-scrollbar { width: 3px; }
+    .drawer-body::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 2px; }
+
+    /* Big title */
+    .drawer-title {
+      font-size: 32px; font-weight: 900;
+      letter-spacing: -1px; line-height: 1.0;
+      color: #fff; margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    /* Year · Genre · Duration */
+    .drawer-meta-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 5px; flex-wrap: wrap;
+    }
+    .drawer-meta-row .m-val { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+    .drawer-meta-row .m-dot { font-size: 13px; color: var(--text-muted); }
+    .drawer-meta-row .m-pill {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.5px;
+      border: 1.5px solid #555; border-radius: 3px;
+      padding: 2px 6px; color: #888; text-transform: uppercase;
+    }
+
+    /* PD badge row */
+    .drawer-badge-row {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+    }
+    .drawer-pd-badge {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 3px; padding: 2px 8px; color: #888; text-transform: uppercase;
+    }
+    .drawer-badge-note { font-size: 11px; color: var(--text-muted); }
+
+    /* Description */
+    .drawer-desc {
+      font-size: 13px; line-height: 1.72; color: #bbb;
+      margin-bottom: 14px;
+    }
+
+    /* Credits */
+    .drawer-credits { margin-bottom: 14px; }
+    .drawer-credits p { font-size: 12px; color: #555; line-height: 1.9; }
+    .drawer-credits p span { color: #888; }
+
+    /* Top 10 row */
+    .drawer-top10 {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .drawer-top10-badge {
+      background: #e50914; color: #fff;
+      font-size: 8px; font-weight: 900; padding: 3px 5px;
+      border-radius: 3px; line-height: 1.4; text-align: center;
+      text-transform: uppercase; min-width: 28px;
+    }
+    .drawer-top10-text { font-size: 13px; font-weight: 700; color: #e0ddd8; }
+    .drawer-recommend { font-size: 12px; color: #888; margin-left: 4px; }
+
+    /* Thumbs */
+    .drawer-thumbs { display: flex; gap: 14px; margin-bottom: 20px; }
+    .drawer-thumb-btn {
+      background: none; border: none; font-size: 20px;
+      cursor: pointer; opacity: 0.45;
+      transition: opacity 0.2s, transform 0.15s; padding: 2px;
+    }
+    .drawer-thumb-btn:hover { opacity: 1; transform: scale(1.15); }
+    .drawer-thumb-btn.active { opacity: 1; }
+
+    /* Full-width Play button */
+    .drawer-play-btn {
+      width: 100%; display: flex; align-items: center; gap: 12px;
+      background: #fff; color: #000; border: none; border-radius: 6px;
+      padding: 13px 20px; margin-bottom: 8px;
+      font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .drawer-play-btn:hover { background: #e0e0e0; }
+    .drawer-play-btn .dp-icon {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: #000; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; flex-shrink: 0;
+    }
+
+    /* Episodes button */
+    .drawer-episodes-btn {
+      width: 100%; display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,0.07); color: #ddd;
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;
+      padding: 13px 20px; margin-bottom: 8px;
+      font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .drawer-episodes-btn:hover { background: rgba(255,255,255,0.12); }
+
+    /* Secondary menu rows */
+    .drawer-menu-btn {
+      width: 100%; display: flex; align-items: center; gap: 14px;
+      background: transparent; color: #888;
+      border: none; border-radius: 6px;
+      padding: 12px 4px; margin-bottom: 2px;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
+      cursor: pointer; transition: color 0.2s, background 0.2s;
+      text-decoration: none; text-align: left;
+      border-bottom: 1px solid #1e1e28;
+    }
+    .drawer-menu-btn:last-child { border-bottom: none; }
+    .drawer-menu-btn:hover { color: #fff; background: rgba(255,255,255,0.04); }
+    .drawer-menu-icon { font-size: 17px; flex-shrink: 0; width: 24px; text-align: center; }
+
+    .drawer-source {
+      margin-top: 18px; padding-top: 14px; border-top: 1px solid #1e1e28;
+      font-size: 10px; color: #3a3a4a;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .drawer-source-dot { width: 5px; height: 5px; border-radius: 50%; background: #4a8fc0; flex-shrink: 0; }
+
+    /* Search results */
+    .search-results { padding: 80px 48px 60px; display: none; }
+    .search-results.visible { display: block; }
+    .search-results-title { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+    .search-results-title span { color: var(--text-primary); font-weight: 600; }
+    .search-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-logo">R</div>
+  <a class="sb-icon active" href="#" title="Home">🏠</a>
+  <a class="sb-icon" href="#" title="Browse">📊</a>
+  <a class="sb-icon" href="#" title="Profile">👤</a>
+  <a class="sb-icon" href="#" title="Calendar">📅</a>
+  <a class="sb-icon" href="#" title="New">⚡</a>
+  <div class="sb-spacer"></div>
+  <div class="sb-divider"></div>
+  <a class="sb-icon" href="#" title="Notifications">🔔</a>
+  <a class="sb-icon" href="#" title="Settings">⚙️</a>
+  <div class="nav-avatar" style="width:32px;height:32px;font-size:12px;margin-top:4px;">R</div>
+</div>
+
+<!-- TOP NAV -->
+<div class="topnav">
+  <div class="nav-logo">Reel Vault</div>
+  <ul class="nav-links">
+    <li><a href="#" class="active" onclick="showHome(this);return false;">Home</a></li>
+    <li><a href="shows.html">Series</a></li>
+    <li><a href="#" onclick="showHome(this);return false;">Movies</a></li>
+    <li><a href="#" onclick="showHome(this);return false;">Originals</a></li>
+    <li><a href="#" onclick="showHome(this);return false;">Recently Added</a></li>
+    <li><a href="#" onclick="showHome(this);return false;">My List</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="search-pill" id="searchPill" onclick="toggleSearch(event)">
+      <span class="search-pill-icon">⌕</span>
+      <span class="search-pill-label">Search</span>
+      <input class="search-pill-input" id="searchInput" type="text" placeholder="Titles, directors…" oninput="handleSearch(this.value)" onclick="event.stopPropagation()" />
+    </div>
+    <div class="nav-bell">🔔</div>
+    <div class="nav-avatar">R</div>
+    <span class="nav-username">Reel Fan</span>
+  </div>
+</div>
+
+<!-- MAIN SCROLLABLE -->
+<div class="main" id="mainScroll">
+
+  <!-- HERO -->
+  <section class="hero" id="heroSection">
+    <div class="hero-bg">
+      <img class="hero-bg-img" id="heroBgImg" src="" alt="" />
+      <div class="hero-fade"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <div class="hero-badge-logo">R</div>
+        <span class="hero-badge-text">Reel Vault <span>original classic</span></span>
+      </div>
+      <h1 class="hero-title" id="heroTitle">Nosferatu</h1>
+      <div class="hero-tags">
+        <span class="hero-tag" id="heroYear">1922</span>
+        <span class="hero-tag">·</span>
+        <span class="hero-tag" id="heroDuration">94 min</span>
+        <span class="hero-tag-pill" id="heroGenreTag">Horror</span>
+      </div>
+      <div class="hero-rank">
+        <span class="hero-rank-icon">📺</span>
+        <span id="heroRankText">#1 in Classics Today</span>
+      </div>
+      <p class="hero-desc" id="heroDesc">The earliest surviving vampire film and a masterpiece of German Expressionism. Count Orlok's haunting shadow terrorizes a small town. Murnau created a visual language for horror that still haunts cinema a century later.</p>
+      <div class="hero-actions">
+        <button class="btn-play" id="heroPlayBtn" onclick="openModal(0)">
+          <div class="btn-play-icon">▶</div> Play
+        </button>
+        <button class="btn-info" onclick="openModal(0)">ⓘ More Info</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GENRE FILTER -->
+  <div class="genre-strip" id="genreStrip">
+    <button class="genre-pill active" onclick="filterGenre(null,this)">All films</button>
+    <button class="genre-pill" onclick="filterGenre('Horror',this)">Horror</button>
+    <button class="genre-pill" onclick="filterGenre('Comedy',this)">Comedy</button>
+    <button class="genre-pill" onclick="filterGenre('Drama',this)">Drama</button>
+    <button class="genre-pill" onclick="filterGenre('Sci-Fi',this)">Sci-Fi</button>
+    <button class="genre-pill" onclick="filterGenre('Romance',this)">Romance</button>
+    <button class="genre-pill" onclick="filterGenre('Adventure',this)">Adventure</button>
+    <button class="genre-pill" onclick="filterGenre('Crime',this)">Crime</button>
+  </div>
+
+  <!-- ROWS -->
+  <div class="rows-area" id="mainContent">
+    <div class="row" id="row-popular">
+      <div class="row-header"><span class="row-title">Popular on Reel Vault</span><span class="row-count" id="count-popular"></span></div>
+      <div class="row-scroll" id="scroll-popular"></div>
+    </div>
+    <div class="row" id="row-chaplin">
+      <div class="row-header"><span class="row-title">Charlie Chaplin collection</span><span class="row-count" id="count-chaplin"></span></div>
+      <div class="row-scroll" id="scroll-chaplin"></div>
+    </div>
+    <div class="row" id="row-horror">
+      <div class="row-header"><span class="row-title">Horror & the macabre</span><span class="row-count" id="count-horror"></span></div>
+      <div class="row-scroll" id="scroll-horror"></div>
+    </div>
+    <div class="row" id="row-masterworks">
+      <div class="row-header"><span class="row-title">Masterworks</span><span class="row-count" id="count-masterworks"></span></div>
+      <div class="row-scroll" id="scroll-masterworks"></div>
+    </div>
+    <div class="row" id="row-comedy">
+      <div class="row-header"><span class="row-title">Comedy & slapstick</span><span class="row-count" id="count-comedy"></span></div>
+      <div class="row-scroll" id="scroll-comedy"></div>
+    </div>
+  </div>
+
+  <!-- SEARCH RESULTS -->
+  <div class="search-results" id="searchResults">
+    <p class="search-results-title" id="searchResultsTitle"></p>
+    <div class="search-grid" id="searchGrid"></div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- BACKDROP -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeModal()"></div>
+
+<!-- RIGHT-SIDE DETAIL DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-media" id="drawerMedia">
+    <img class="drawer-media-poster" id="drawerPoster" src="" alt="" />
+    <div class="drawer-media-gradient"></div>
+    <iframe id="drawerIframe" src="" allowfullscreen style="display:none;position:absolute;inset:0;width:100%;height:100%;border:none;z-index:2;"></iframe>
+    <button class="drawer-close" onclick="closeModal()">✕</button>
+  </div>
+  <div class="drawer-body">
+    <h2 class="drawer-title" id="drawerTitle"></h2>
+    <div class="drawer-meta-row">
+      <span class="m-val" id="drawerYear"></span>
+      <span class="m-dot">·</span>
+      <span class="m-val" id="drawerGenre"></span>
+      <span class="m-dot">·</span>
+      <span class="m-val" id="drawerDuration"></span>
+      <span class="m-pill">PD</span>
+    </div>
+    <div class="drawer-badge-row">
+      <span class="drawer-pd-badge">Public Domain</span>
+      <span class="drawer-badge-note">Free · No sign-up required</span>
+    </div>
+    <p class="drawer-desc" id="drawerDesc"></p>
+    <div class="drawer-credits">
+      <p id="drawerCastLine"></p>
+      <p>Director: <span id="drawerDirector"></span></p>
+    </div>
+    <div class="drawer-top10">
+      <div class="drawer-top10-badge">TOP<br>10</div>
+      <span class="drawer-top10-text" id="drawerRank"></span>
+      <span class="drawer-recommend">👍 We think you'll love this!</span>
+    </div>
+    <div class="drawer-thumbs">
+      <button class="drawer-thumb-btn" onclick="drawerThumb(this)">👎</button>
+      <button class="drawer-thumb-btn" onclick="drawerThumb(this)">👍</button>
+      <button class="drawer-thumb-btn" onclick="drawerThumb(this)">👍👍</button>
+    </div>
+    <button class="drawer-play-btn" id="drawerPlayBtn">
+      <div class="dp-icon">▶</div> Play
+    </button>
+    <button class="drawer-episodes-btn" id="drawerEpisodesBtn" style="display:none;">
+      ▦ &nbsp;Episodes
+    </button>
+    <button class="drawer-menu-btn"><span class="drawer-menu-icon">▦</span> More Like This</button>
+    <a class="drawer-menu-btn" id="drawerArchiveLink" href="#" target="_blank" rel="noopener">
+      <span class="drawer-menu-icon">↗</span> Open on Archive.org
+    </a>
+    <button class="drawer-menu-btn"><span class="drawer-menu-icon">+</span> Add to My List</button>
+    <div class="drawer-source">
+      <span class="drawer-source-dot"></span>
+      Streaming free from Internet Archive · Public domain
+    </div>
+  </div>
+</div>
+
+<script>
+  const FILMS = [
+    { id:0,  title:'Nosferatu',                   year:1922, director:'F.W. Murnau',       genre:'Horror',    duration:'94 min',  tags:['Horror'],           emoji:'🧛', cast:['Max Schreck','Gustav von Wangenheim','Greta Schröder'],            isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Nosferatu_Eine_Symphonie_des_Grauens_poster.jpg/800px-Nosferatu_Eine_Symphonie_des_Grauens_poster.jpg', embedUrl:'https://archive.org/embed/Nosferatu_the_Vampyre', archiveUrl:'https://archive.org/details/Nosferatu_the_Vampyre', rank:'#1 in Horror Today', desc:'The earliest surviving vampire film and a landmark of German Expressionism. Count Orlok terrorizes a coastal town. Murnau created a visual language for horror that still haunts cinema today.' },
+    { id:1,  title:'Metropolis',                  year:1927, director:'Fritz Lang',         genre:'Sci-Fi',    duration:'153 min', tags:['Sci-Fi'],            emoji:'🏙️', cast:['Brigitte Helm','Alfred Abel','Gustav Fröhlich'],                   isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Metropolis_poster_1927.jpg/800px-Metropolis_poster_1927.jpg', embedUrl:'https://archive.org/embed/Metropolis_1927', archiveUrl:'https://archive.org/details/Metropolis_1927', rank:'#1 in Sci-Fi Today', desc:"Fritz Lang's monumental sci-fi epic. In a futuristic city, the ruling class lives above while workers toil underground. The film that invented the visual grammar of science fiction." },
+    { id:2,  title:'The General',                 year:1926, director:'Buster Keaton',      genre:'Comedy',    duration:'79 min',  tags:['Comedy'],            emoji:'🚂', cast:['Buster Keaton','Marion Mack','Glen Cavender'],                     isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/General_poster.jpg/800px-General_poster.jpg', embedUrl:'https://archive.org/embed/TheGeneral_201512', archiveUrl:'https://archive.org/details/TheGeneral_201512', rank:'#2 in Comedy Today', desc:"Buster Keaton's masterpiece. A Confederate engineer chases Union spies who stole his locomotive. An astonishing feat of stunt work and deadpan humor." },
+    { id:3,  title:'The Kid',                     year:1921, director:'Charlie Chaplin',    genre:'Comedy',    duration:'68 min',  tags:['Comedy'],            emoji:'🎩', cast:['Charlie Chaplin','Jackie Coogan','Edna Purviance'],               isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/The_Kid_1921_film_poster.jpg/800px-The_Kid_1921_film_poster.jpg', embedUrl:'https://archive.org/embed/TheKid1921', archiveUrl:'https://archive.org/details/TheKid1921', rank:'#1 in Chaplin Films', desc:"Chaplin's first feature as director. The Tramp raises an abandoned child, creating one of cinema's most heartfelt bonds." },
+    { id:4,  title:'Safety Last!',                year:1923, director:'Harold Lloyd',       genre:'Comedy',    duration:'70 min',  tags:['Comedy'],            emoji:'🕐', cast:['Harold Lloyd','Mildred Davis','Bill Strother'],                   isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Safety_Last.jpg/800px-Safety_Last.jpg', embedUrl:'https://archive.org/embed/SafetyLast1923', archiveUrl:'https://archive.org/details/SafetyLast1923', rank:'Iconic Stunt Classic', desc:"Harold Lloyd dangles from a clock face hundreds of feet above the city — one of the most iconic images in silent film." },
+    { id:5,  title:'Cabinet of Dr. Caligari',     year:1920, director:'Robert Wiene',       genre:'Horror',    duration:'76 min',  tags:['Horror'],            emoji:'🌀', cast:['Werner Krauss','Conrad Veidt','Friedrich Fehér'],                  isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/The_Cabinet_of_Dr._Caligari_poster.jpg/800px-The_Cabinet_of_Dr._Caligari_poster.jpg', embedUrl:'https://archive.org/embed/TheCabinetOfDrCaligari', archiveUrl:'https://archive.org/details/TheCabinetOfDrCaligari', rank:'First Horror Film', desc:"The first true horror film. A sinister doctor and his somnambulist commit murders at a German fairground. Its expressionist sets made the world look like a nightmare." },
+    { id:6,  title:'The Gold Rush',               year:1925, director:'Charlie Chaplin',    genre:'Comedy',    duration:'95 min',  tags:['Comedy'],            emoji:'⛏️', cast:['Charlie Chaplin','Mack Swain','Tom Murray'],                      isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/The_Gold_Rush_poster.jpg/800px-The_Gold_Rush_poster.jpg', embedUrl:'https://archive.org/embed/TheGoldRush', archiveUrl:'https://archive.org/details/TheGoldRush', rank:"Chaplin's Most Beloved", desc:"Chaplin's most beloved feature. The Tramp in the Klondike gold rush. The shoe-eating sequence and dancing bread rolls are among cinema's most famous moments." },
+    { id:7,  title:'Battleship Potemkin',         year:1925, director:'Sergei Eisenstein',  genre:'Drama',     duration:'75 min',  tags:['Drama'],             emoji:'⚓', cast:['Aleksandr Antonov','Vladimir Barsky','Grigori Aleksandrov'],      isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Battleship_Potemkin_film_poster.jpg/800px-Battleship_Potemkin_film_poster.jpg', embedUrl:'https://archive.org/embed/BattleshipPotemkin', archiveUrl:'https://archive.org/details/BattleshipPotemkin', rank:'Greatest Film Ever Made', desc:"Eisenstein's revolutionary film. The Odessa Steps sequence is the most analyzed and imitated scene in film history." },
+    { id:8,  title:'Sunrise',                     year:1927, director:'F.W. Murnau',        genre:'Romance',   duration:'94 min',  tags:['Romance','Drama'],   emoji:'🌅', cast:['George O\'Brien','Janet Gaynor','Margaret Livingston'],           isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Sunrise_1927.jpg/800px-Sunrise_1927.jpg', embedUrl:'https://archive.org/embed/Sunrise1927', archiveUrl:'https://archive.org/details/Sunrise1927', rank:'First Academy Award Winner', desc:"Often called the most beautiful film ever made. Winner of the Academy Award for Unique and Artistic Picture at the very first Oscars." },
+    { id:9,  title:'Phantom of the Opera',        year:1925, director:'Rupert Julian',      genre:'Horror',    duration:'107 min', tags:['Horror'],            emoji:'🎭', cast:['Lon Chaney','Mary Philbin','Norman Kerry'],                       isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Phantom_of_the_opera_1925.jpg/800px-Phantom_of_the_opera_1925.jpg', embedUrl:'https://archive.org/embed/ThePhantomOfTheOpera1925', archiveUrl:'https://archive.org/details/ThePhantomOfTheOpera1925', rank:'#2 in Horror Today', desc:"Lon Chaney's legendary performance as the disfigured musical genius haunting the Paris Opera. The unmasking scene is one of cinema's great shock moments." },
+    { id:10, title:'City Lights',                 year:1931, director:'Charlie Chaplin',    genre:'Romance',   duration:'87 min',  tags:['Romance','Comedy'],  emoji:'🌹', cast:['Charlie Chaplin','Virginia Cherrill','Florence Lee'],             isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/City_Lights_poster.jpg/800px-City_Lights_poster.jpg', embedUrl:'https://archive.org/embed/CityLights1931', archiveUrl:'https://archive.org/details/CityLights1931', rank:"Chaplin's Greatest Achievement", desc:"Widely considered Chaplin's greatest film. The Tramp falls for a blind flower girl. The final scene is one of cinema's most emotionally devastating moments." },
+    { id:11, title:'Modern Times',                year:1936, director:'Charlie Chaplin',    genre:'Comedy',    duration:'87 min',  tags:['Comedy','Drama'],    emoji:'⚙️', cast:['Charlie Chaplin','Paulette Goddard','Henry Bergman'],             isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/ModernTimes_1936_poster.jpg/800px-ModernTimes_1936_poster.jpg', embedUrl:'https://archive.org/embed/ModernTimes_201501', archiveUrl:'https://archive.org/details/ModernTimes_201501', rank:"Chaplin's Last Tramp Film", desc:"Chaplin's satirical attack on industrialization. The Tramp fights the modern world in his final appearance as the Little Tramp character." },
+    { id:12, title:'The Great Train Robbery',     year:1903, director:'Edwin S. Porter',    genre:'Adventure', duration:'10 min',  tags:['Adventure','Crime'], emoji:'🤠', cast:['A.C. Abadie','Gilbert M. Anderson','George Barnes'],              isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/The_Great_Train_Robbery_%281903%29.jpg/800px-The_Great_Train_Robbery_%281903%29.jpg', embedUrl:'https://archive.org/embed/TheGreatTrainRobbery', archiveUrl:'https://archive.org/details/TheGreatTrainRobbery', rank:'Birth of the Western', desc:"The film that invented the Western genre and cinematic storytelling. The final close-up firing at the camera stunned 1903 audiences." },
+    { id:13, title:'Wings',                       year:1927, director:'William Wellman',    genre:'Adventure', duration:'144 min', tags:['Adventure','Drama'], emoji:'✈️', cast:['Clara Bow','Charles Rogers','Richard Arlen'],                     isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Wings_1927_poster.jpg/800px-Wings_1927_poster.jpg', embedUrl:'https://archive.org/embed/Wings1927Film', archiveUrl:'https://archive.org/details/Wings1927Film', rank:'First Best Picture Winner', desc:"Winner of the first Academy Award for Best Picture. Two WWI pilots love the same girl. Extraordinary aerial photography." },
+    { id:14, title:'Sherlock Jr.',                year:1924, director:'Buster Keaton',      genre:'Comedy',    duration:'45 min',  tags:['Comedy'],            emoji:'🔍', cast:['Buster Keaton','Kathryn McGuire','Joe Keaton'],                   isSeries:false, poster:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Sherlock_Jr._1924_film_poster.jpg/800px-Sherlock_Jr._1924_film_poster.jpg', embedUrl:'https://archive.org/embed/SherlockJr1924', archiveUrl:'https://archive.org/details/SherlockJr1924', rank:'Most Inventive Comedy', desc:"Keaton plays a projectionist who dreams himself into the film on screen. A surreal comedy that anticipates postmodern cinema by 60 years." },
+  ];
+
+  const ROWS = [
+    { id:'popular',    filter: m => [0,1,2,6,8,10,3,13].includes(m.id) },
+    { id:'chaplin',    filter: m => m.director === 'Charlie Chaplin' },
+    { id:'horror',     filter: m => m.tags.includes('Horror') },
+    { id:'masterworks',filter: m => [7,8,9,1,13,0].includes(m.id) },
+    { id:'comedy',     filter: m => m.genre === 'Comedy' },
+  ];
+
+  let currentFilter = null;
+
+  function makeCard(film) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.onclick = () => openModal(film.id);
+    card.innerHTML = `
+      <div class="card-img">
+        ${film.poster ? `<img src="${film.poster}" alt="${film.title}" loading="lazy" onerror="this.style.display='none'">` : ''}
+        <div class="card-img-fallback" style="${film.poster ? 'display:none' : ''}">${film.emoji}</div>
+        <div class="card-img-tint"></div>
+        <div class="card-badge">R</div>
+        <div class="card-bottom-title">${film.title}</div>
+        <div class="card-hover-overlay"><div class="card-play-circle">▶</div></div>
+      </div>`;
+    if (film.poster) {
+      card.querySelector('img').onerror = function() {
+        this.style.display = 'none';
+        card.querySelector('.card-img-fallback').style.display = 'flex';
+      };
+    }
+    return card;
+  }
+
+  function renderRows() {
+    const filtered = currentFilter ? FILMS.filter(m => m.tags.includes(currentFilter) || m.genre === currentFilter) : FILMS;
+    ROWS.forEach(row => {
+      const films = filtered.filter(row.filter);
+      const scroll = document.getElementById('scroll-' + row.id);
+      const count  = document.getElementById('count-' + row.id);
+      const rowEl  = document.getElementById('row-' + row.id);
+      if (!scroll) return;
+      scroll.innerHTML = '';
+      rowEl.style.display = films.length ? '' : 'none';
+      if (!films.length) return;
+      count.textContent = films.length + ' film' + (films.length !== 1 ? 's' : '');
+      films.forEach(m => scroll.appendChild(makeCard(m)));
+    });
+  }
+
+  function filterGenre(genre, btn) {
+    currentFilter = genre;
+    document.querySelectorAll('.genre-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    renderRows();
+    document.getElementById('mainContent').style.display = '';
+    document.getElementById('searchResults').classList.remove('visible');
+    closeSearch();
+  }
+
+  function showHome(el) {
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('mainContent').style.display = '';
+    document.getElementById('searchResults').classList.remove('visible');
+    document.getElementById('heroSection').style.display = '';
+    document.getElementById('genreStrip').style.display = '';
+  }
+
+  let searchOpen = false;
+  function toggleSearch(e) {
+    const pill = document.getElementById('searchPill');
+    const input = document.getElementById('searchInput');
+    if (!searchOpen) {
+      searchOpen = true;
+      pill.classList.add('open');
+      setTimeout(() => input.focus(), 50);
+    } else if (!input.value) {
+      closeSearch();
+    }
+  }
+  function closeSearch() {
+    searchOpen = false;
+    const pill = document.getElementById('searchPill');
+    const input = document.getElementById('searchInput');
+    pill.classList.remove('open');
+    input.value = '';
+    handleSearch('');
+  }
+  document.addEventListener('click', function(e) {
+    const pill = document.getElementById('searchPill');
+    if (searchOpen && !pill.contains(e.target)) {
+      if (!document.getElementById('searchInput').value) closeSearch();
+    }
+  });
+
+  function handleSearch(q) {
+    const main    = document.getElementById('mainContent');
+    const hero    = document.getElementById('heroSection');
+    const strip   = document.getElementById('genreStrip');
+    const results = document.getElementById('searchResults');
+    const grid    = document.getElementById('searchGrid');
+    const title   = document.getElementById('searchResultsTitle');
+    if (!q.trim()) {
+      main.style.display = ''; hero.style.display = ''; strip.style.display = '';
+      results.classList.remove('visible'); return;
+    }
+    const found = FILMS.filter(m =>
+      m.title.toLowerCase().includes(q.toLowerCase()) ||
+      m.genre.toLowerCase().includes(q.toLowerCase()) ||
+      m.director.toLowerCase().includes(q.toLowerCase()) ||
+      m.tags.some(t => t.toLowerCase().includes(q.toLowerCase()))
+    );
+    main.style.display = 'none'; hero.style.display = 'none'; strip.style.display = 'none';
+    results.classList.add('visible');
+    grid.innerHTML = '';
+    title.innerHTML = found.length
+      ? `${found.length} result${found.length !== 1 ? 's' : ''} for <span>"${q}"</span>`
+      : `No results for <span>"${q}"</span>`;
+    found.forEach(m => grid.appendChild(makeCard(m)));
+  }
+
+  function drawerThumb(btn) {
+    document.querySelectorAll('.drawer-thumb-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function openModal(id) {
+    const m = FILMS[id];
+
+    // Poster shown first, iframe hidden
+    const poster = document.getElementById('drawerPoster');
+    const iframe = document.getElementById('drawerIframe');
+    poster.src = m.poster || '';
+    poster.style.display = m.poster ? '' : 'none';
+    iframe.src = '';
+    iframe.style.display = 'none';
+
+    // Text fields
+    document.getElementById('drawerTitle').textContent    = m.title;
+    document.getElementById('drawerYear').textContent     = m.year;
+    document.getElementById('drawerGenre').textContent    = m.genre;
+    document.getElementById('drawerDuration').textContent = m.duration;
+    document.getElementById('drawerDesc').textContent     = m.desc;
+    document.getElementById('drawerRank').textContent     = m.rank || '#1 in Classics Today';
+    document.getElementById('drawerDirector').textContent = m.director;
+    document.getElementById('drawerArchiveLink').href     = m.archiveUrl;
+
+    // Cast
+    const castLine = document.getElementById('drawerCastLine');
+    if (m.cast && m.cast.length) {
+      castLine.style.display = '';
+      castLine.innerHTML = `Cast: <span>${m.cast.join(', ')}</span>`;
+    } else {
+      castLine.style.display = 'none';
+    }
+
+    // Play button — swaps poster for live video
+    document.getElementById('drawerPlayBtn').onclick = () => {
+      iframe.src = m.embedUrl;
+      iframe.style.display = 'block';
+      poster.style.display = 'none';
+      document.getElementById('drawerMedia').querySelector('.drawer-media-gradient').style.display = 'none';
+    };
+
+    // Episodes
+    document.getElementById('drawerEpisodesBtn').style.display = m.isSeries ? '' : 'none';
+
+    // Reset thumbs
+    document.querySelectorAll('.drawer-thumb-btn').forEach(b => b.classList.remove('active'));
+
+    // Open drawer
+    document.getElementById('drawerBackdrop').classList.add('open');
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('drawer').querySelector('.drawer-body').scrollTop = 0;
+  }
+
+  function closeModal() {
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('drawerBackdrop').classList.remove('open');
+    // Stop video
+    setTimeout(() => {
+      document.getElementById('drawerIframe').src = '';
+      document.getElementById('drawerIframe').style.display = 'none';
+      document.getElementById('drawerPoster').style.display = '';
+      const grad = document.getElementById('drawer').querySelector('.drawer-media-gradient');
+      if (grad) grad.style.display = '';
+    }, 350);
+  }
+
+  // Init
+  document.getElementById('heroBgImg').src = FILMS[0].poster;
+  renderRows();
+</script>
+</body>
+</html>
